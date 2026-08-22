@@ -2,3 +2,5 @@
 site/
 data.json
 .idea/
+__pycache__/
+*.pyc
