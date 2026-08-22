@@ -3,13 +3,25 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta http-equiv="refresh" content="900">
+<meta name="color-scheme" content="dark">
 <title>Sportcal</title>
 <style>
 :root{
-  --bg:#12100e; --panel:#1a1714; --line:#2b2622;
-  --ink:#ece5da; --mut:#8a8073; --amber:#e8a33d;
+  --bg:#101113; --panel:#181a1c; --line:#292c2f;
+  --ink:#e7e9ea; --mut:#878d92; --amber:#e8a33d;
+  --live:#e05b4b; --ok:#5aa06f;
 }
+/* Ligafarben genau einmal definiert: --c faerbt den Chip, --a das Badge. */
+.lg-nfl{--c:#4fa3d1;--a:#4fa3d1}
+.lg-cfb{--c:#c98a3a;--a:#c98a3a}
+.lg-bl1{--c:#cf4f4f;--a:#cf4f4f}
+.lg-dfb{--c:#7d8f4a;--a:#7d8f4a}
+.lg-ucl{--c:#7a6fd0;--a:#7a6fd0}
+.lg-f1{--c:#b9bcc4;--a:#b9bcc4}
+.lg-cycling{--c:#5aa06f;--a:#5aa06f}
+.lg-atp{--c:#3fa8a0;--a:#3fa8a0}
+.lg-wta{--c:#b56aa0;--a:#b56aa0}
+
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
 body{margin:0;background:var(--bg);color:var(--ink);
@@ -20,63 +32,87 @@ body{margin:0;background:var(--bg);color:var(--ink);
 header{display:flex;flex-wrap:wrap;align-items:baseline;gap:12px;
   padding-bottom:14px;border-bottom:2px solid var(--line)}
 h1{margin:0;font-size:19px;font-weight:650;letter-spacing:.14em;text-transform:uppercase}
-.stamp{margin-left:auto;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+.stamp{margin-left:auto;text-align:right;
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
   font-size:12px;color:var(--mut)}
+.stamp b{display:block;font-weight:400;color:var(--mut)}
 
-.filters{display:flex;flex-wrap:wrap;gap:6px;margin:14px 0 4px}
+/* Filter: eingeklappt, Zustand im Toggle sichtbar */
+.filterbar{margin:14px 0 0}
+.ftoggle{display:flex;align-items:center;gap:8px;width:100%;
+  border:1px solid var(--line);background:transparent;color:var(--mut);
+  font:inherit;font-size:12px;letter-spacing:.06em;text-transform:uppercase;
+  padding:7px 10px;border-radius:2px;cursor:pointer;text-align:left}
+.ftoggle:focus-visible,.chip:focus-visible,.bulk:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
+.ftoggle .caret{margin-left:auto;transition:transform .15s}
+.ftoggle[aria-expanded="true"] .caret{transform:rotate(180deg)}
+.ftoggle .active{color:var(--amber)}
+.filters{display:none;flex-wrap:wrap;gap:6px;padding:10px 0 2px}
+.filterbar.open .filters{display:flex}
 .chip{border:1px solid var(--line);background:transparent;color:var(--mut);
   font:inherit;font-size:12px;letter-spacing:.06em;text-transform:uppercase;
   padding:4px 10px;border-radius:2px;cursor:pointer}
 .chip[aria-pressed="true"]{color:var(--bg);background:var(--c,#ccc);border-color:var(--c,#ccc)}
-.chip:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
+.bulk{border:1px dashed var(--line);background:transparent;color:var(--mut);
+  font:inherit;font-size:12px;letter-spacing:.06em;text-transform:uppercase;
+  padding:4px 10px;border-radius:2px;cursor:pointer}
 
-.day{margin-top:26px}
+.day{margin-top:26px;padding-left:11px;border-left:3px solid transparent}
+.day.today{border-left-color:var(--amber)}
 .day h2{display:flex;align-items:baseline;gap:10px;margin:0 0 6px;
   font-size:13px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
   color:var(--mut);border-bottom:1px solid var(--line);padding-bottom:5px}
 .day h2 .dow{color:var(--ink)}
 .day h2 .rel{margin-left:auto;color:var(--amber);letter-spacing:.08em}
+.day .none{font-size:12.5px;color:var(--mut);padding:8px 2px;font-style:italic}
+.day .none.filtered{color:var(--amber);opacity:.8;font-style:normal}
 
 .row{display:grid;grid-template-columns:4.6rem 6.4rem 1fr;gap:10px;
   align-items:baseline;padding:9px 2px;border-bottom:1px solid var(--line)}
 .row .t{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
   font-size:15px;color:var(--amber);white-space:nowrap}
+.row.allday .t{font-size:11px;color:var(--mut);letter-spacing:.06em;text-transform:uppercase}
 .badge{display:inline-block;font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;
-  padding:2px 6px;border-radius:2px;color:#12100e;background:var(--a);white-space:nowrap}
+  padding:2px 6px;border-radius:2px;color:#101113;background:var(--a);white-space:nowrap}
 .m{grid-column:3}
-.meta{grid-column:3;font-size:11.5px;color:var(--mut);margin-top:2px;
-  letter-spacing:.02em}
+.meta{grid-column:3;font-size:11.5px;color:var(--mut);margin-top:3px;letter-spacing:.02em}
 .vs{color:var(--mut);font-size:12px;padding:0 2px}
 .rank{color:var(--amber);font-size:12px}
-.fav{color:var(--amber)}
 .stage{color:var(--mut);font-size:12.5px;padding-left:6px}
-.score{font-family:ui-monospace,Menlo,Consolas,monospace;color:var(--amber);
-  padding-left:8px;font-weight:600}
+.tv{display:inline-block;border:1px solid var(--line);border-radius:2px;
+  padding:0 4px;margin-left:6px;font-size:10.5px;letter-spacing:.05em;
+  text-transform:uppercase;color:var(--mut)}
+.meta .tv:first-child{margin-left:0}
 .row a{color:inherit;text-decoration:none;border-bottom:1px solid var(--line)}
 .row a:hover{border-bottom-color:var(--amber)}
 .is-done{opacity:.45}
-.is-live .t{color:#e8e8e8}
+.is-live .t{color:#f0f0f0}
 .dot{display:inline-block;width:6px;height:6px;border-radius:50%;
-  background:#e05b4b;margin-left:6px;vertical-align:middle;
+  background:var(--live);margin-left:6px;vertical-align:middle;
   animation:pulse 2s ease-in-out infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.25}}
 @media (prefers-reduced-motion:reduce){.dot{animation:none}}
 
-.empty{margin-top:40px;color:var(--mut);font-size:14px}
+.skel .row{border-bottom:1px solid var(--line)}
+.skel .bar{height:11px;border-radius:2px;background:var(--panel);
+  animation:sheen 1.4s ease-in-out infinite}
+@keyframes sheen{0%,100%{opacity:.55}50%{opacity:1}}
+
 footer{margin-top:40px;padding-top:12px;border-top:1px solid var(--line);
   font-size:11.5px;color:var(--mut);
   font-family:ui-monospace,Menlo,Consolas,monospace}
 footer .src{display:inline-block;margin-right:14px;white-space:nowrap}
-footer .ok::before{content:"\25CF";color:#5aa06f;padding-right:5px}
-footer .partial::before{content:"\25CF";color:#e8a33d;padding-right:5px}
-footer .fail::before{content:"\25CF";color:#e05b4b;padding-right:5px}
-.warn{margin-top:14px;padding:9px 12px;border-left:3px solid #e05b4b;
-  background:#1f1714;color:#e8cfc6;font-size:13px}
+footer .ok::before{content:"\25CF";color:var(--ok);padding-right:5px}
+footer .partial::before{content:"\25CF";color:var(--amber);padding-right:5px}
+footer .fail::before{content:"\25CF";color:var(--live);padding-right:5px}
+footer .note{color:#6f7479;padding-left:4px}
+.warn{margin-top:14px;padding:9px 12px;border-left:3px solid var(--live);
+  background:#1c1618;color:#e8cfc6;font-size:13px}
 
 @media (max-width:560px){
   .row{grid-template-columns:4.2rem 1fr;gap:6px}
   .lg{grid-column:2}.m{grid-column:1 / -1}.meta{grid-column:1 / -1}
-  .stamp{margin-left:0;width:100%}
+  .stamp{margin-left:0;width:100%;text-align:left}
 }
 </style>
 </head>
@@ -84,587 +120,319 @@ footer .fail::before{content:"\25CF";color:#e05b4b;padding-right:5px}
 <div class="wrap">
   <header>
     <h1>Sportcal</h1>
-    <div class="stamp">Stand 22.08. 17:38 · Europe/Berlin</div>
+    <div class="stamp"><span id="tz">&nbsp;</span><b id="stand">&nbsp;</b></div>
   </header>
-  <div class="filters"><button class="chip" data-league="nfl" style="--c:#4fa3d1" aria-pressed="true">NFL</button><button class="chip" data-league="cfb" style="--c:#c98a3a" aria-pressed="true">College</button><button class="chip" data-league="bl1" style="--c:#cf4f4f" aria-pressed="true">Bundesliga</button><button class="chip" data-league="ucl" style="--c:#7a6fd0" aria-pressed="true">Champions Lg.</button><button class="chip" data-league="cycling" style="--c:#5aa06f" aria-pressed="true">Radsport</button></div>
-  
-  <section class="day">
-         <h2><span class="dow">Samstag</span><span>22. August</span><span class="rel">heute</span></h2>
-         <div class="row" data-league="cycling">
-       <div class="t">17:30</div>
-       <div class="lg"><span class="badge" style="--a:#5aa06f">Rad</span></div>
-       <div class="m"><a href="https://www.lavuelta.es/" target="_blank" rel="noopener">Vuelta a Espana</a> <span class="stage">Etappe 1 / 21</span></div>
-       <div class="meta">Grand Tour</div>
-     </div>
-<div class="row" data-league="nfl">
-       <div class="t">18:00</div>
-       <div class="lg"><span class="badge" style="--a:#4fa3d1">NFL</span></div>
-       <div class="m">Washington Commanders <span class="vs">gegen</span> Detroit Lions </div>
-       <div class="meta">Week 3 · Ford Field · US-TV Lions TV Network/WUSA9</div>
-     </div>
-<div class="row" data-league="nfl">
-       <div class="t">19:00</div>
-       <div class="lg"><span class="badge" style="--a:#4fa3d1">NFL</span></div>
-       <div class="m">Buffalo Bills <span class="vs">gegen</span> Cleveland Browns </div>
-       <div class="meta">Week 3 · Huntington Bank Field · US-TV NFL Net</div>
-     </div>
-<div class="row" data-league="nfl">
-       <div class="t">19:00</div>
-       <div class="lg"><span class="badge" style="--a:#4fa3d1">NFL</span></div>
-       <div class="m">Atlanta Falcons <span class="vs">gegen</span> Indianapolis Colts </div>
-       <div class="meta">Week 3 · Lucas Oil Stadium · US-TV CBS4</div>
-     </div>
-<div class="row" data-league="nfl">
-       <div class="t">19:00</div>
-       <div class="lg"><span class="badge" style="--a:#4fa3d1">NFL</span></div>
-       <div class="m"><span class="fav">★</span> Baltimore Ravens <span class="vs">gegen</span> Minnesota Vikings </div>
-       <div class="meta">Week 3 · U.S. Bank Stadium · US-TV ESPN Unlmtd</div>
-     </div>
-<div class="row" data-league="nfl">
-       <div class="t">22:00</div>
-       <div class="lg"><span class="badge" style="--a:#4fa3d1">NFL</span></div>
-       <div class="m">New Orleans Saints <span class="vs">gegen</span> Los Angeles Rams </div>
-       <div class="meta">Week 3 · SoFi Stadium · US-TV ESPN Unlmtd</div>
-     </div>
-<div class="row" data-league="nfl">
-       <div class="t">22:00</div>
-       <div class="lg"><span class="badge" style="--a:#4fa3d1">NFL</span></div>
-       <div class="m">New York Giants <span class="vs">gegen</span> Miami Dolphins </div>
-       <div class="meta">Week 3 · Hard Rock Stadium · US-TV NFL Net</div>
-     </div>
-       </section>
-<section class="day">
-         <h2><span class="dow">Sonntag</span><span>23. August</span><span class="rel">morgen</span></h2>
-         <div class="row" data-league="nfl">
-       <div class="t">01:00</div>
-       <div class="lg"><span class="badge" style="--a:#4fa3d1">NFL</span></div>
-       <div class="m">Chicago Bears <span class="vs">gegen</span> Cincinnati Bengals </div>
-       <div class="meta">Week 3 · Paycor Stadium · US-TV Bengals Preseason TV Network</div>
-     </div>
-<div class="row" data-league="nfl">
-       <div class="t">01:00</div>
-       <div class="lg"><span class="badge" style="--a:#4fa3d1">NFL</span></div>
-       <div class="m">Philadelphia Eagles <span class="vs">gegen</span> New England Patriots </div>
-       <div class="meta">Week 3 · Gillette Stadium · US-TV NFL Net</div>
-     </div>
-<div class="row" data-league="nfl">
-       <div class="t">01:30</div>
-       <div class="lg"><span class="badge" style="--a:#4fa3d1">NFL</span></div>
-       <div class="m">Kansas City Chiefs <span class="vs">gegen</span> Tampa Bay Buccaneers </div>
-       <div class="meta">Week 3 · Raymond James Stadium · US-TV ESPN Unlmtd</div>
-     </div>
-<div class="row" data-league="nfl">
-       <div class="t">04:00</div>
-       <div class="lg"><span class="badge" style="--a:#4fa3d1">NFL</span></div>
-       <div class="m">Dallas Cowboys <span class="vs">gegen</span> Arizona Cardinals </div>
-       <div class="meta">Week 3 · State Farm Stadium · US-TV NFL Net</div>
-     </div>
-<div class="row" data-league="cycling">
-       <div class="t">17:30</div>
-       <div class="lg"><span class="badge" style="--a:#5aa06f">Rad</span></div>
-       <div class="m"><a href="https://www.lavuelta.es/" target="_blank" rel="noopener">Vuelta a Espana</a> <span class="stage">Etappe 2 / 21</span></div>
-       <div class="meta">Grand Tour</div>
-     </div>
-       </section>
-<section class="day">
-         <h2><span class="dow">Montag</span><span>24. August</span><span class="rel"></span></h2>
-         <div class="row" data-league="nfl">
-       <div class="t">02:00</div>
-       <div class="lg"><span class="badge" style="--a:#4fa3d1">NFL</span></div>
-       <div class="m">Seattle Seahawks <span class="vs">gegen</span> Tennessee Titans </div>
-       <div class="meta">Week 3 · Nissan Stadium · US-TV FOX</div>
-     </div>
-<div class="row" data-league="cycling">
-       <div class="t">17:30</div>
-       <div class="lg"><span class="badge" style="--a:#5aa06f">Rad</span></div>
-       <div class="m"><a href="https://www.lavuelta.es/" target="_blank" rel="noopener">Vuelta a Espana</a> <span class="stage">Etappe 3 / 21</span></div>
-       <div class="meta">Grand Tour</div>
-     </div>
-       </section>
-<section class="day">
-         <h2><span class="dow">Dienstag</span><span>25. August</span><span class="rel"></span></h2>
-         <div class="row" data-league="cycling">
-       <div class="t">17:30</div>
-       <div class="lg"><span class="badge" style="--a:#5aa06f">Rad</span></div>
-       <div class="m"><a href="https://www.lavuelta.es/" target="_blank" rel="noopener">Vuelta a Espana</a> <span class="stage">Etappe 4 / 21</span></div>
-       <div class="meta">Grand Tour</div>
-     </div>
-       </section>
-<section class="day">
-         <h2><span class="dow">Mittwoch</span><span>26. August</span><span class="rel"></span></h2>
-         <div class="row" data-league="cycling">
-       <div class="t">17:30</div>
-       <div class="lg"><span class="badge" style="--a:#5aa06f">Rad</span></div>
-       <div class="m"><a href="https://www.lavuelta.es/" target="_blank" rel="noopener">Vuelta a Espana</a> <span class="stage">Etappe 5 / 21</span></div>
-       <div class="meta">Grand Tour</div>
-     </div>
-       </section>
-<section class="day">
-         <h2><span class="dow">Donnerstag</span><span>27. August</span><span class="rel"></span></h2>
-         <div class="row" data-league="cycling">
-       <div class="t">17:30</div>
-       <div class="lg"><span class="badge" style="--a:#5aa06f">Rad</span></div>
-       <div class="m"><a href="https://www.lavuelta.es/" target="_blank" rel="noopener">Vuelta a Espana</a> <span class="stage">Etappe 6 / 21</span></div>
-       <div class="meta">Grand Tour</div>
-     </div>
-       </section>
-<section class="day">
-         <h2><span class="dow">Freitag</span><span>28. August</span><span class="rel"></span></h2>
-         <div class="row" data-league="nfl">
-       <div class="t">01:00</div>
-       <div class="lg"><span class="badge" style="--a:#4fa3d1">NFL</span></div>
-       <div class="m">Pittsburgh Steelers <span class="vs">gegen</span> Buffalo Bills </div>
-       <div class="meta">Week 4 · Highmark Stadium · US-TV NFL Net</div>
-     </div>
-<div class="row" data-league="nfl">
-       <div class="t">02:00</div>
-       <div class="lg"><span class="badge" style="--a:#4fa3d1">NFL</span></div>
-       <div class="m">New England Patriots <span class="vs">gegen</span> Cleveland Browns </div>
-       <div class="meta">Week 4 · Huntington Bank Field · US-TV Prime Video</div>
-     </div>
-<div class="row" data-league="nfl">
-       <div class="t">02:00</div>
-       <div class="lg"><span class="badge" style="--a:#4fa3d1">NFL</span></div>
-       <div class="m">San Francisco 49ers <span class="vs">gegen</span> Las Vegas Raiders </div>
-       <div class="meta">Week 4 · Allegiant Stadium · US-TV ESPN Unlmtd</div>
-     </div>
-<div class="row" data-league="nfl">
-       <div class="t">04:00</div>
-       <div class="lg"><span class="badge" style="--a:#4fa3d1">NFL</span></div>
-       <div class="m">Los Angeles Rams <span class="vs">gegen</span> Los Angeles Chargers </div>
-       <div class="meta">Week 4 · SoFi Stadium · US-TV NFL Net</div>
-     </div>
-<div class="row" data-league="cycling">
-       <div class="t">17:30</div>
-       <div class="lg"><span class="badge" style="--a:#5aa06f">Rad</span></div>
-       <div class="m"><a href="https://www.lavuelta.es/" target="_blank" rel="noopener">Vuelta a Espana</a> <span class="stage">Etappe 7 / 21</span></div>
-       <div class="meta">Grand Tour</div>
-     </div>
-<div class="row" data-league="bl1">
-       <div class="t">20:30</div>
-       <div class="lg"><span class="badge" style="--a:#cf4f4f">Bundesliga</span></div>
-       <div class="m">VfB Stuttgart <span class="vs">gegen</span> Bayern Munich </div>
-       <div class="meta">2026-27-german-bundesliga · Allianz Arena</div>
-     </div>
-       </section>
-<section class="day">
-         <h2><span class="dow">Samstag</span><span>29. August</span><span class="rel"></span></h2>
-         <div class="row" data-league="nfl">
-       <div class="t">00:00</div>
-       <div class="lg"><span class="badge" style="--a:#4fa3d1">NFL</span></div>
-       <div class="m"><span class="fav">★</span> Washington Commanders <span class="vs">gegen</span> Baltimore Ravens </div>
-       <div class="meta">Week 4 · M&amp;T Bank Stadium · US-TV NFL Net</div>
-     </div>
-<div class="row" data-league="nfl">
-       <div class="t">01:00</div>
-       <div class="lg"><span class="badge" style="--a:#4fa3d1">NFL</span></div>
-       <div class="m">Atlanta Falcons <span class="vs">gegen</span> Miami Dolphins </div>
-       <div class="meta">Week 4 · Hard Rock Stadium · US-TV CBS Miami</div>
-     </div>
-<div class="row" data-league="nfl">
-       <div class="t">01:00</div>
-       <div class="lg"><span class="badge" style="--a:#4fa3d1">NFL</span></div>
-       <div class="m">Houston Texans <span class="vs">gegen</span> Carolina Panthers </div>
-       <div class="meta">Week 4 · Bank of America Stadium · US-TV KTRK (ABC)</div>
-     </div>
-<div class="row" data-league="nfl">
-       <div class="t">01:30</div>
-       <div class="lg"><span class="badge" style="--a:#4fa3d1">NFL</span></div>
-       <div class="m">New York Giants <span class="vs">gegen</span> New York Jets </div>
-       <div class="meta">Week 4 · MetLife Stadium · US-TV WCBS</div>
-     </div>
-<div class="row" data-league="nfl">
-       <div class="t">01:30</div>
-       <div class="lg"><span class="badge" style="--a:#4fa3d1">NFL</span></div>
-       <div class="m">Tampa Bay Buccaneers <span class="vs">gegen</span> Jacksonville Jaguars </div>
-       <div class="meta">Week 4 · EverBank Stadium · US-TV FOX30</div>
-     </div>
-<div class="row" data-league="nfl">
-       <div class="t">02:00</div>
-       <div class="lg"><span class="badge" style="--a:#4fa3d1">NFL</span></div>
-       <div class="m">New Orleans Saints <span class="vs">gegen</span> Dallas Cowboys </div>
-       <div class="meta">Week 4 · AT&amp;T Stadium · US-TV ESPN Unlmtd</div>
-     </div>
-<div class="row" data-league="nfl">
-       <div class="t">02:00</div>
-       <div class="lg"><span class="badge" style="--a:#4fa3d1">NFL</span></div>
-       <div class="m">Arizona Cardinals <span class="vs">gegen</span> Green Bay Packers </div>
-       <div class="meta">Week 4 · Lambeau Field · US-TV Packers TV Network</div>
-     </div>
-<div class="row" data-league="nfl">
-       <div class="t">02:00</div>
-       <div class="lg"><span class="badge" style="--a:#4fa3d1">NFL</span></div>
-       <div class="m">Seattle Seahawks <span class="vs">gegen</span> Kansas City Chiefs </div>
-       <div class="meta">Week 4 · Arrowhead Stadium · US-TV ESPN Unlmtd</div>
-     </div>
-<div class="row" data-league="nfl">
-       <div class="t">02:00</div>
-       <div class="lg"><span class="badge" style="--a:#4fa3d1">NFL</span></div>
-       <div class="m">Cincinnati Bengals <span class="vs">gegen</span> Philadelphia Eagles </div>
-       <div class="meta">Week 4 · Lincoln Financial Field · US-TV CBS</div>
-     </div>
-<div class="row" data-league="nfl">
-       <div class="t">03:00</div>
-       <div class="lg"><span class="badge" style="--a:#4fa3d1">NFL</span></div>
-       <div class="m">Minnesota Vikings <span class="vs">gegen</span> Denver Broncos </div>
-       <div class="meta">Week 4 · Empower Field at Mile High · US-TV NFL Net</div>
-     </div>
-<div class="row" data-league="bl1">
-       <div class="t">15:30</div>
-       <div class="lg"><span class="badge" style="--a:#cf4f4f">Bundesliga</span></div>
-       <div class="m">Eintracht Frankfurt <span class="vs">gegen</span> 1. FC Union Berlin </div>
-       <div class="meta">2026-27-german-bundesliga · Stadion An der Alten Försterei</div>
-     </div>
-<div class="row" data-league="bl1">
-       <div class="t">15:30</div>
-       <div class="lg"><span class="badge" style="--a:#cf4f4f">Bundesliga</span></div>
-       <div class="m">TSG Hoffenheim <span class="vs">gegen</span> FC Cologne </div>
-       <div class="meta">2026-27-german-bundesliga · RheinEnergieStadion</div>
-     </div>
-<div class="row" data-league="bl1">
-       <div class="t">15:30</div>
-       <div class="lg"><span class="badge" style="--a:#cf4f4f">Bundesliga</span></div>
-       <div class="m">SC Paderborn 07 <span class="vs">gegen</span> Mainz </div>
-       <div class="meta">2026-27-german-bundesliga · MEWA ARENA</div>
-     </div>
-<div class="row" data-league="bl1">
-       <div class="t">15:30</div>
-       <div class="lg"><span class="badge" style="--a:#cf4f4f">Bundesliga</span></div>
-       <div class="m">Borussia Mönchengladbach <span class="vs">gegen</span> RB Leipzig </div>
-       <div class="meta">2026-27-german-bundesliga · Red Bull Arena</div>
-     </div>
-<div class="row" data-league="bl1">
-       <div class="t">15:30</div>
-       <div class="lg"><span class="badge" style="--a:#cf4f4f">Bundesliga</span></div>
-       <div class="m">Bayer Leverkusen <span class="vs">gegen</span> SV Elversberg </div>
-       <div class="meta">2026-27-german-bundesliga · URSAPHARM-Arena an der Kaiserlinde</div>
-     </div>
-<div class="row" data-league="cycling">
-       <div class="t">17:30</div>
-       <div class="lg"><span class="badge" style="--a:#5aa06f">Rad</span></div>
-       <div class="m"><a href="https://www.lavuelta.es/" target="_blank" rel="noopener">Vuelta a Espana</a> <span class="stage">Etappe 8 / 21</span></div>
-       <div class="meta">Grand Tour</div>
-     </div>
-<div class="row" data-league="cfb">
-       <div class="t">18:00</div>
-       <div class="lg"><span class="badge" style="--a:#c98a3a">College</span></div>
-       <div class="m">North Carolina Tar Heels <span class="vs">gegen</span> TCU Horned Frogs </div>
-       <div class="meta">Week 1 · Aviva Stadium · US-TV ESPN</div>
-     </div>
-<div class="row" data-league="bl1">
-       <div class="t">18:30</div>
-       <div class="lg"><span class="badge" style="--a:#cf4f4f">Bundesliga</span></div>
-       <div class="m">Hamburg SV <span class="vs">gegen</span> Borussia Dortmund </div>
-       <div class="meta">2026-27-german-bundesliga · Signal Iduna Park</div>
-     </div>
-<div class="row" data-league="nfl">
-       <div class="t">19:00</div>
-       <div class="lg"><span class="badge" style="--a:#4fa3d1">NFL</span></div>
-       <div class="m">Detroit Lions <span class="vs">gegen</span> Indianapolis Colts </div>
-       <div class="meta">Week 4 · Lucas Oil Stadium · US-TV NFL Net</div>
-     </div>
-<div class="row" data-league="cfb">
-       <div class="t">21:00</div>
-       <div class="lg"><span class="badge" style="--a:#c98a3a">College</span></div>
-       <div class="m">San José State Spartans <span class="vs">gegen</span> <span class="rank">#14</span> USC Trojans </div>
-       <div class="meta">Week 1 · Los Angeles Memorial Coliseum · US-TV NBC</div>
-     </div>
-<div class="row" data-league="cfb">
-       <div class="t">21:30</div>
-       <div class="lg"><span class="badge" style="--a:#c98a3a">College</span></div>
-       <div class="m">NC State Wolfpack <span class="vs">gegen</span> Virginia Cavaliers </div>
-       <div class="meta">Week 1 · Scott Stadium · US-TV ESPN</div>
-     </div>
-<div class="row" data-league="cfb">
-       <div class="t">23:30</div>
-       <div class="lg"><span class="badge" style="--a:#c98a3a">College</span></div>
-       <div class="m">Jacksonville State Gamecocks <span class="vs">gegen</span> North Dakota State Bison </div>
-       <div class="meta">Week 1 · Fargodome · US-TV CBSSN</div>
-     </div>
-       </section>
-<section class="day">
-         <h2><span class="dow">Sonntag</span><span>30. August</span><span class="rel"></span></h2>
-         <div class="row" data-league="nfl">
-       <div class="t">00:00</div>
-       <div class="lg"><span class="badge" style="--a:#4fa3d1">NFL</span></div>
-       <div class="m">Chicago Bears <span class="vs">gegen</span> Tennessee Titans </div>
-       <div class="meta">Week 4 · Nissan Stadium · US-TV NFL Net</div>
-     </div>
-<div class="row" data-league="cfb">
-       <div class="t">00:30</div>
-       <div class="lg"><span class="badge" style="--a:#c98a3a">College</span></div>
-       <div class="m">Sacramento State Hornets <span class="vs">gegen</span> Eastern Michigan Eagles </div>
-       <div class="meta">Week 1 · Rynearson Stadium · US-TV ESPN+</div>
-     </div>
-<div class="row" data-league="cfb">
-       <div class="t">01:00</div>
-       <div class="lg"><span class="badge" style="--a:#c98a3a">College</span></div>
-       <div class="m">Hawai'i Rainbow Warriors <span class="vs">gegen</span> Stanford Cardinal </div>
-       <div class="meta">Week 1 · Stanford Stadium · US-TV ACC Network</div>
-     </div>
-<div class="row" data-league="cfb">
-       <div class="t">01:00</div>
-       <div class="lg"><span class="badge" style="--a:#c98a3a">College</span></div>
-       <div class="m">New Mexico State Aggies <span class="vs">gegen</span> Florida State Seminoles </div>
-       <div class="meta">Week 1 · Doak Campbell Stadium · US-TV CW</div>
-     </div>
-<div class="row" data-league="cfb">
-       <div class="t">04:00</div>
-       <div class="lg"><span class="badge" style="--a:#c98a3a">College</span></div>
-       <div class="m">Memphis Tigers <span class="vs">gegen</span> UNLV Rebels </div>
-       <div class="meta">Week 1 · Allegiant Stadium · US-TV FOX</div>
-     </div>
-<div class="row" data-league="bl1">
-       <div class="t">15:30</div>
-       <div class="lg"><span class="badge" style="--a:#cf4f4f">Bundesliga</span></div>
-       <div class="m">Werder Bremen <span class="vs">gegen</span> SC Freiburg </div>
-       <div class="meta">2026-27-german-bundesliga · Europa-Park Stadion</div>
-     </div>
-<div class="row" data-league="bl1">
-       <div class="t">17:30</div>
-       <div class="lg"><span class="badge" style="--a:#cf4f4f">Bundesliga</span></div>
-       <div class="m">Schalke 04 <span class="vs">gegen</span> FC Augsburg </div>
-       <div class="meta">2026-27-german-bundesliga · WWK Arena</div>
-     </div>
-<div class="row" data-league="cycling">
-       <div class="t">17:30</div>
-       <div class="lg"><span class="badge" style="--a:#5aa06f">Rad</span></div>
-       <div class="m"><a href="https://www.lavuelta.es/" target="_blank" rel="noopener">Vuelta a Espana</a> <span class="stage">Etappe 9 / 21</span></div>
-       <div class="meta">Grand Tour</div>
-     </div>
-       </section>
-<section class="day">
-         <h2><span class="dow">Montag</span><span>31. August</span><span class="rel"></span></h2>
-         <div class="row is-done" data-league="cycling">
-       <div class="t">—</div>
-       <div class="lg"><span class="badge" style="--a:#5aa06f">Rad</span></div>
-       <div class="m"><a href="https://www.lavuelta.es/" target="_blank" rel="noopener">Vuelta a Espana</a> <span class="stage">Ruhetag</span></div>
-       <div class="meta">Grand Tour</div>
-     </div>
-       </section>
-<section class="day">
-         <h2><span class="dow">Dienstag</span><span>1. September</span><span class="rel"></span></h2>
-         <div class="row" data-league="cycling">
-       <div class="t">17:30</div>
-       <div class="lg"><span class="badge" style="--a:#5aa06f">Rad</span></div>
-       <div class="m"><a href="https://www.lavuelta.es/" target="_blank" rel="noopener">Vuelta a Espana</a> <span class="stage">Etappe 10 / 21</span></div>
-       <div class="meta">Grand Tour</div>
-     </div>
-       </section>
-<section class="day">
-         <h2><span class="dow">Mittwoch</span><span>2. September</span><span class="rel"></span></h2>
-         <div class="row" data-league="cycling">
-       <div class="t">17:30</div>
-       <div class="lg"><span class="badge" style="--a:#5aa06f">Rad</span></div>
-       <div class="m"><a href="https://www.lavuelta.es/" target="_blank" rel="noopener">Vuelta a Espana</a> <span class="stage">Etappe 11 / 21</span></div>
-       <div class="meta">Grand Tour</div>
-     </div>
-       </section>
-<section class="day">
-         <h2><span class="dow">Donnerstag</span><span>3. September</span><span class="rel"></span></h2>
-         <div class="row" data-league="cycling">
-       <div class="t">17:30</div>
-       <div class="lg"><span class="badge" style="--a:#5aa06f">Rad</span></div>
-       <div class="m"><a href="https://www.lavuelta.es/" target="_blank" rel="noopener">Vuelta a Espana</a> <span class="stage">Etappe 12 / 21</span></div>
-       <div class="meta">Grand Tour</div>
-     </div>
-       </section>
-<section class="day">
-         <h2><span class="dow">Freitag</span><span>4. September</span><span class="rel"></span></h2>
-         <div class="row" data-league="cfb">
-       <div class="t">00:00</div>
-       <div class="lg"><span class="badge" style="--a:#c98a3a">College</span></div>
-       <div class="m">Massachusetts Minutemen <span class="vs">gegen</span> Rutgers Scarlet Knights </div>
-       <div class="meta">Week 1 · SHI Stadium · US-TV BTN</div>
-     </div>
-<div class="row" data-league="cfb">
-       <div class="t">01:00</div>
-       <div class="lg"><span class="badge" style="--a:#c98a3a">College</span></div>
-       <div class="m">Bethune-Cookman Wildcats <span class="vs">gegen</span> UCF Knights </div>
-       <div class="meta">Week 1 · Acrisure Bounce House · US-TV ESPN+</div>
-     </div>
-<div class="row" data-league="cfb">
-       <div class="t">01:00</div>
-       <div class="lg"><span class="badge" style="--a:#c98a3a">College</span></div>
-       <div class="m">Akron Zips <span class="vs">gegen</span> Wake Forest Demon Deacons </div>
-       <div class="meta">Week 1 · Allegacy Federal Credit Union Stadium · US-TV ACC Network</div>
-     </div>
-<div class="row" data-league="cfb">
-       <div class="t">01:00</div>
-       <div class="lg"><span class="badge" style="--a:#c98a3a">College</span></div>
-       <div class="m">Merrimack Warriors <span class="vs">gegen</span> Delaware Blue Hens </div>
-       <div class="meta">Week 1 · Delaware Stadium · US-TV ESPN+</div>
-     </div>
-<div class="row" data-league="cfb">
-       <div class="t">01:00</div>
-       <div class="lg"><span class="badge" style="--a:#c98a3a">College</span></div>
-       <div class="m">West Georgia Wolves <span class="vs">gegen</span> Kennesaw State Owls </div>
-       <div class="meta">Week 1 · Walens Family Field at Fifth Third Stadium · US-TV ESPN+</div>
-     </div>
-<div class="row" data-league="cfb">
-       <div class="t">01:00</div>
-       <div class="lg"><span class="badge" style="--a:#c98a3a">College</span></div>
-       <div class="m">UAlbany Great Danes <span class="vs">gegen</span> Buffalo Bulls </div>
-       <div class="meta">Week 1 · Broadview Stadium · US-TV ESPN+</div>
-     </div>
-<div class="row" data-league="cfb">
-       <div class="t">02:00</div>
-       <div class="lg"><span class="badge" style="--a:#c98a3a">College</span></div>
-       <div class="m">Arkansas-Pine Bluff Golden Lions <span class="vs">gegen</span> <span class="rank">#25</span> Missouri Tigers </div>
-       <div class="meta">Week 1 · Memorial Stadium · US-TV SEC Network</div>
-     </div>
-<div class="row" data-league="cfb">
-       <div class="t">02:00</div>
-       <div class="lg"><span class="badge" style="--a:#c98a3a">College</span></div>
-       <div class="m">Colorado Buffaloes <span class="vs">gegen</span> Georgia Tech Yellow Jackets </div>
-       <div class="meta">Week 1 · Bobby Dodd Stadium · US-TV ESPN</div>
-     </div>
-<div class="row" data-league="cfb">
-       <div class="t">02:00</div>
-       <div class="lg"><span class="badge" style="--a:#c98a3a">College</span></div>
-       <div class="m">Eastern Illinois Panthers <span class="vs">gegen</span> Minnesota Golden Gophers </div>
-       <div class="meta">Week 1 · Huntington Bank Stadium · US-TV Peacock</div>
-     </div>
-<div class="row" data-league="cfb">
-       <div class="t">03:00</div>
-       <div class="lg"><span class="badge" style="--a:#c98a3a">College</span></div>
-       <div class="m">Idaho Vandals <span class="vs">gegen</span> <span class="rank">#21</span> Utah Utes </div>
-       <div class="meta">Week 1 · Rice-Eccles Stadium · US-TV ESPNU</div>
-     </div>
-<div class="row" data-league="cfb">
-       <div class="t">03:00</div>
-       <div class="lg"><span class="badge" style="--a:#c98a3a">College</span></div>
-       <div class="m">UAB Blazers <span class="vs">gegen</span> Illinois Fighting Illini </div>
-       <div class="meta">Week 1 · Gies Memorial Stadium · US-TV BTN</div>
-     </div>
-<div class="row" data-league="cycling">
-       <div class="t">17:30</div>
-       <div class="lg"><span class="badge" style="--a:#5aa06f">Rad</span></div>
-       <div class="m"><a href="https://www.lavuelta.es/" target="_blank" rel="noopener">Vuelta a Espana</a> <span class="stage">Etappe 13 / 21</span></div>
-       <div class="meta">Grand Tour</div>
-     </div>
-<div class="row" data-league="bl1">
-       <div class="t">20:30</div>
-       <div class="lg"><span class="badge" style="--a:#cf4f4f">Bundesliga</span></div>
-       <div class="m">FC Cologne <span class="vs">gegen</span> VfB Stuttgart </div>
-       <div class="meta">2026-27-german-bundesliga · MHPArena</div>
-     </div>
-       </section>
-<section class="day">
-         <h2><span class="dow">Samstag</span><span>5. September</span><span class="rel"></span></h2>
-         <div class="row" data-league="cfb">
-       <div class="t">00:30</div>
-       <div class="lg"><span class="badge" style="--a:#c98a3a">College</span></div>
-       <div class="m">San José State Spartans <span class="vs">gegen</span> Eastern Michigan Eagles </div>
-       <div class="meta">Week 1 · Rynearson Stadium · US-TV ESPN+</div>
-     </div>
-<div class="row" data-league="cfb">
-       <div class="t">01:00</div>
-       <div class="lg"><span class="badge" style="--a:#c98a3a">College</span></div>
-       <div class="m">Indiana State Sycamores <span class="vs">gegen</span> Purdue Boilermakers </div>
-       <div class="meta">Week 1 · Ross-Ade Stadium · US-TV BTN</div>
-     </div>
-<div class="row" data-league="cfb">
-       <div class="t">01:00</div>
-       <div class="lg"><span class="badge" style="--a:#c98a3a">College</span></div>
-       <div class="m">North Carolina A&amp;T Aggies <span class="vs">gegen</span> Georgia State Panthers </div>
-       <div class="meta">Week 1 · Center Parc Stadium · US-TV ESPN+</div>
-     </div>
-<div class="row" data-league="cfb">
-       <div class="t">02:00</div>
-       <div class="lg"><span class="badge" style="--a:#c98a3a">College</span></div>
-       <div class="m">UTEP Miners <span class="vs">gegen</span> <span class="rank">#10</span> Oklahoma Sooners </div>
-       <div class="meta">Week 1 · Memorial Stadium (Norman, OK) · US-TV SECN+</div>
-     </div>
-<div class="row" data-league="cfb">
-       <div class="t">02:00</div>
-       <div class="lg"><span class="badge" style="--a:#c98a3a">College</span></div>
-       <div class="m">Long Island University Sharks <span class="vs">gegen</span> Kansas Jayhawks </div>
-       <div class="meta">Week 1 · David Booth Kansas Memorial Stadium · US-TV ESPNU</div>
-     </div>
-<div class="row" data-league="cfb">
-       <div class="t">02:00</div>
-       <div class="lg"><span class="badge" style="--a:#c98a3a">College</span></div>
-       <div class="m">Toledo Rockets <span class="vs">gegen</span> Michigan State Spartans </div>
-       <div class="meta">Week 1 · Spartan Stadium · US-TV FS1</div>
-     </div>
-<div class="row" data-league="cfb">
-       <div class="t">03:00</div>
-       <div class="lg"><span class="badge" style="--a:#c98a3a">College</span></div>
-       <div class="m"><span class="rank">#7</span> Miami Hurricanes <span class="vs">gegen</span> Stanford Cardinal </div>
-       <div class="meta">Week 1 · Stanford Stadium · US-TV ESPN</div>
-     </div>
-<div class="row" data-league="cfb">
-       <div class="t">03:00</div>
-       <div class="lg"><span class="badge" style="--a:#c98a3a">College</span></div>
-       <div class="m">Fresno State Bulldogs <span class="vs">gegen</span> <span class="rank">#14</span> USC Trojans </div>
-       <div class="meta">Week 1 · Los Angeles Memorial Coliseum · US-TV FOX</div>
-     </div>
-<div class="row" data-league="bl1">
-       <div class="t">15:30</div>
-       <div class="lg"><span class="badge" style="--a:#cf4f4f">Bundesliga</span></div>
-       <div class="m">1. FC Union Berlin <span class="vs">gegen</span> Bayer Leverkusen </div>
-       <div class="meta">2026-27-german-bundesliga · BayArena</div>
-     </div>
-<div class="row" data-league="bl1">
-       <div class="t">15:30</div>
-       <div class="lg"><span class="badge" style="--a:#cf4f4f">Bundesliga</span></div>
-       <div class="m">SV Elversberg <span class="vs">gegen</span> Borussia Mönchengladbach </div>
-       <div class="meta">2026-27-german-bundesliga · BORUSSIA-PARK</div>
-     </div>
-<div class="row" data-league="bl1">
-       <div class="t">15:30</div>
-       <div class="lg"><span class="badge" style="--a:#cf4f4f">Bundesliga</span></div>
-       <div class="m">SC Freiburg <span class="vs">gegen</span> SC Paderborn 07 </div>
-       <div class="meta">2026-27-german-bundesliga · Home Deluxe Arena</div>
-     </div>
-<div class="row" data-league="bl1">
-       <div class="t">15:30</div>
-       <div class="lg"><span class="badge" style="--a:#cf4f4f">Bundesliga</span></div>
-       <div class="m">Borussia Dortmund <span class="vs">gegen</span> TSG Hoffenheim </div>
-       <div class="meta">2026-27-german-bundesliga · PreZero Arena</div>
-     </div>
-<div class="row" data-league="bl1">
-       <div class="t">15:30</div>
-       <div class="lg"><span class="badge" style="--a:#cf4f4f">Bundesliga</span></div>
-       <div class="m">RB Leipzig <span class="vs">gegen</span> Werder Bremen </div>
-       <div class="meta">2026-27-german-bundesliga · Weserstadion</div>
-     </div>
-<div class="row" data-league="cycling">
-       <div class="t">17:30</div>
-       <div class="lg"><span class="badge" style="--a:#5aa06f">Rad</span></div>
-       <div class="m"><a href="https://www.lavuelta.es/" target="_blank" rel="noopener">Vuelta a Espana</a> <span class="stage">Etappe 14 / 21</span></div>
-       <div class="meta">Grand Tour</div>
-     </div>
-       </section>
-  <footer><span class="src ok">NFL vor 0 h</span><span class="src ok">College vor 0 h</span><span class="src ok">Bundesliga vor 0 h</span><span class="src ok">Champions Lg. vor 0 h</span><span class="src ok">Radsport vor 0 h</span></footer>
+
+  <div class="filterbar" id="filterbar">
+    <button class="ftoggle" id="ftoggle" aria-expanded="false" aria-controls="filters">
+      <span id="fstate">Ligen</span><span class="caret">&#9662;</span>
+    </button>
+    <div class="filters" id="filters" role="group" aria-label="Ligen filtern"></div>
+  </div>
+
+  <main id="cal" class="skel" aria-live="polite"></main>
+  <div id="warn"></div>
+  <footer id="foot"></footer>
 </div>
 <script>
 (function(){
-  var KEY="sportcal.hidden";
-  var hidden={};
-  try{hidden=JSON.parse(localStorage.getItem(KEY))||{}}catch(e){hidden={}}
-  function apply(){
-    document.querySelectorAll(".row").forEach(function(r){
-      r.style.display = hidden[r.dataset.league] ? "none" : "";
+  "use strict";
+
+  /* Labels und Reihenfolge der Chips. Farben stehen ausschliesslich im CSS
+     als .lg-<key>, hier bewusst nicht dupliziert. */
+  var LEAGUES=[
+    {k:"nfl",     label:"NFL",           badge:"NFL"},
+    {k:"cfb",     label:"College",       badge:"College"},
+    {k:"bl1",     label:"Bundesliga",    badge:"BL"},
+    {k:"dfb",     label:"DFB-Pokal",     badge:"Pokal"},
+    {k:"ucl",     label:"Champions Lg.", badge:"CL"},
+    {k:"f1",      label:"Formel 1",      badge:"F1"},
+    {k:"cycling", label:"Radsport",      badge:"Rad"},
+    {k:"atp",     label:"ATP",           badge:"ATP"},
+    {k:"wta",     label:"WTA",           badge:"WTA"}
+  ];
+  var BADGE={},LABEL={};
+  LEAGUES.forEach(function(l){BADGE[l.k]=l.badge;LABEL[l.k]=l.label;});
+
+  var HIDDEN_KEY="sportcal.hidden", CACHE_KEY="sportcal.data";
+  var DAYS=7, REFRESH_MS=30*60*1000;
+  var cal=document.getElementById("cal"), foot=document.getElementById("foot"),
+      warn=document.getElementById("warn"), filters=document.getElementById("filters"),
+      fbar=document.getElementById("filterbar"), ftoggle=document.getElementById("ftoggle"),
+      fstate=document.getElementById("fstate");
+  var doc=null, hidden=load(HIDDEN_KEY,{}), fetchedAt=0;
+
+  /* ---------- Speicher ---------- */
+  function load(key,fallback){
+    try{var raw=localStorage.getItem(key);return raw?JSON.parse(raw):fallback;}
+    catch(e){return fallback;}
+  }
+  function save(key,val){try{localStorage.setItem(key,JSON.stringify(val));}catch(e){}}
+
+  /* ---------- Datum, immer in der Zeitzone des Geraets ---------- */
+  function dayKey(d){
+    var m=d.getMonth()+1, day=d.getDate();
+    return d.getFullYear()+"-"+(m<10?"0":"")+m+"-"+(day<10?"0":"")+day;
+  }
+  function fmtTime(d){
+    return d.toLocaleTimeString("de-DE",{hour:"2-digit",minute:"2-digit"});
+  }
+  function fmtDay(d){
+    return {dow:d.toLocaleDateString("de-DE",{weekday:"long"}),
+            date:d.getDate()+". "+d.toLocaleDateString("de-DE",{month:"long"})};
+  }
+  function fmtStamp(iso){
+    var d=new Date(iso);
+    if(isNaN(d))return "";
+    return d.toLocaleDateString("de-DE",{day:"2-digit",month:"2-digit"})+" "+fmtTime(d);
+  }
+
+  /* ---------- Rendern ---------- */
+  function el(tag,cls,text){
+    var n=document.createElement(tag);
+    if(cls)n.className=cls;
+    if(text!=null)n.textContent=text;
+    return n;
+  }
+
+  function eventDay(ev){
+    if(ev.allday)return ev.allday;              // Turniertag = Kalendertag, keine Umrechnung
+    var d=new Date(ev.t);
+    return isNaN(d)?null:dayKey(d);
+  }
+
+  function state(ev,now){
+    if(ev.allday)return "";
+    var start=new Date(ev.t).getTime();
+    if(isNaN(start))return "";
+    var end=start+(ev.dur||120)*60000;
+    if(now>=end)return "is-done";
+    if(now>=start)return "is-live";
+    return "";
+  }
+
+  function rowNode(ev,now){
+    var cls="row lg-"+ev.lg;
+    var st=state(ev,now);
+    if(st)cls+=" "+st;
+    if(ev.allday)cls+=" allday";
+    var row=el("div",cls);
+    row.setAttribute("data-league",ev.lg);
+
+    var t=el("div","t");
+    if(ev.allday){t.textContent="ganztägig";}
+    else{
+      t.textContent=fmtTime(new Date(ev.t));
+      if(st==="is-live")t.appendChild(el("span","dot"));
+    }
+    row.appendChild(t);
+
+    var lg=el("div","lg");
+    lg.appendChild(el("span","badge",BADGE[ev.lg]||ev.lg));
+    row.appendChild(lg);
+
+    var m=el("div","m");
+    if(ev.home&&ev.away){
+      if(ev.rank_home)m.appendChild(el("span","rank","#"+ev.rank_home+" "));
+      m.appendChild(document.createTextNode(ev.home+" "));
+      m.appendChild(el("span","vs","gegen"));
+      if(ev.rank_away)m.appendChild(el("span","rank"," #"+ev.rank_away));
+      m.appendChild(document.createTextNode(" "+ev.away));
+    }else{
+      var name=ev.n||"?";
+      if(ev.u){
+        var a=el("a",null,name);
+        a.href=ev.u;a.target="_blank";a.rel="noopener";
+        m.appendChild(a);
+      }else{
+        m.appendChild(document.createTextNode(name));
+      }
+      if(ev.s)m.appendChild(el("span","stage",ev.s));
+    }
+    row.appendChild(m);
+
+    var meta=el("div","meta");
+    if(ev.m)meta.appendChild(document.createTextNode(ev.m));
+    (ev.tv||[]).forEach(function(ch){meta.appendChild(el("span","tv",ch));});
+    if(meta.childNodes.length)row.appendChild(meta);
+    return row;
+  }
+
+  function render(){
+    cal.className="";
+    cal.textContent="";
+    if(!doc){
+      cal.appendChild(el("p","day none","Keine Daten vorhanden."));
+      return;
+    }
+    var now=Date.now(), today=new Date();
+    var buckets={};
+    (doc.events||[]).forEach(function(ev){
+      var key=eventDay(ev);
+      if(!key)return;
+      (buckets[key]=buckets[key]||[]).push(ev);
     });
-    document.querySelectorAll(".day").forEach(function(d){
-      var any=Array.prototype.some.call(d.querySelectorAll(".row"),
-        function(r){return r.style.display!=="none"});
-      d.style.display = any ? "" : "none";
+
+    for(var i=0;i<DAYS;i++){
+      var d=new Date(today.getFullYear(),today.getMonth(),today.getDate()+i);
+      var key=dayKey(d), all=buckets[key]||[];
+      var visible=all.filter(function(ev){return !hidden[ev.lg];});
+      visible.sort(function(a,b){
+        if(!!a.allday!==!!b.allday)return a.allday?-1:1;   // ganztaegig zuerst
+        return (a.t||"")<(b.t||"")?-1:1;
+      });
+
+      var sec=el("section","day"+(i===0?" today":""));
+      var h2=el("h2");
+      var f=fmtDay(d);
+      h2.appendChild(el("span","dow",f.dow));
+      h2.appendChild(el("span",null,f.date));
+      if(i===0)h2.appendChild(el("span","rel","heute"));
+      else if(i===1)h2.appendChild(el("span","rel","morgen"));
+      sec.appendChild(h2);
+
+      if(visible.length){
+        visible.forEach(function(ev){sec.appendChild(rowNode(ev,now));});
+      }else if(all.length){
+        sec.appendChild(el("div","none filtered",
+          all.length+(all.length===1?" Termin":" Termine")+" durch Filter ausgeblendet"));
+      }else{
+        sec.appendChild(el("div","none","keine Termine"));
+      }
+      cal.appendChild(sec);
+    }
+    renderFoot();
+  }
+
+  function renderFoot(){
+    foot.textContent="";
+    warn.textContent="";
+    var dead=[];
+    (doc.sources||[]).forEach(function(s){
+      var span=el("span","src "+(s.state||"fail"),(s.label||s.key)+(s.coverage?" bis "+s.coverage:""));
+      if(s.note)span.appendChild(el("span","note","("+s.note+")"));
+      foot.appendChild(span);
+      if(s.state==="fail")dead.push(s.label||s.key);
     });
-    document.querySelectorAll(".chip").forEach(function(c){
-      c.setAttribute("aria-pressed", hidden[c.dataset.league] ? "false" : "true");
+    if(dead.length){
+      warn.appendChild(el("div","warn",
+        "Quelle nicht erreichbar: "+dead.join(", ")+". Diese Termine fehlen möglicherweise."));
+    }
+  }
+
+  function renderHead(){
+    var tz="";
+    try{tz=Intl.DateTimeFormat().resolvedOptions().timeZone||"";}catch(e){}
+    document.getElementById("tz").textContent=tz?"Zeiten in "+tz:"";
+    document.getElementById("stand").textContent=
+      doc&&doc.generated?"Stand "+fmtStamp(doc.generated):"";
+  }
+
+  /* ---------- Filter ---------- */
+  function buildFilters(){
+    LEAGUES.forEach(function(l){
+      var b=el("button","chip lg-"+l.k,l.label);
+      b.type="button";
+      b.setAttribute("data-league",l.k);
+      b.setAttribute("aria-pressed",hidden[l.k]?"false":"true");
+      b.addEventListener("click",function(){
+        if(hidden[l.k])delete hidden[l.k];else hidden[l.k]=true;
+        b.setAttribute("aria-pressed",hidden[l.k]?"false":"true");
+        commit();
+      });
+      filters.appendChild(b);
+    });
+    var all=el("button","bulk","Alle"), none=el("button","bulk","Keine");
+    all.type=none.type="button";
+    all.addEventListener("click",function(){hidden={};syncChips();commit();});
+    none.addEventListener("click",function(){
+      hidden={};LEAGUES.forEach(function(l){hidden[l.k]=true;});syncChips();commit();
+    });
+    filters.appendChild(all);
+    filters.appendChild(none);
+  }
+  function syncChips(){
+    Array.prototype.forEach.call(filters.querySelectorAll(".chip"),function(b){
+      b.setAttribute("aria-pressed",hidden[b.getAttribute("data-league")]?"false":"true");
     });
   }
-  document.querySelectorAll(".chip").forEach(function(c){
-    c.addEventListener("click",function(){
-      var k=c.dataset.league; hidden[k]=!hidden[k];
-      try{localStorage.setItem(KEY,JSON.stringify(hidden))}catch(e){}
-      apply();
-    });
+  function commit(){
+    save(HIDDEN_KEY,hidden);
+    syncState();
+    render();
+  }
+  function syncState(){
+    var off=LEAGUES.filter(function(l){return hidden[l.k];}).length;
+    if(!off){fstate.textContent="Ligen · alle sichtbar";}
+    else{
+      fstate.textContent="Ligen · ";
+      fstate.appendChild(el("span","active",off+" von "+LEAGUES.length+" ausgeblendet"));
+    }
+  }
+  ftoggle.addEventListener("click",function(){
+    var open=fbar.classList.toggle("open");
+    ftoggle.setAttribute("aria-expanded",open?"true":"false");
   });
-  apply();
+
+  /* ---------- Laden ---------- */
+  function apply(data,fromCache){
+    doc=data;
+    try{
+      renderHead();
+      render();
+    }catch(err){
+      // Lieber eine sichtbare Fehlermeldung als eine leere Seite.
+      cal.className="";
+      cal.textContent="";
+      cal.appendChild(el("div","warn","Anzeige fehlgeschlagen: "+err.message));
+      return;
+    }
+    if(!fromCache)save(CACHE_KEY,data);
+  }
+  function fetchData(){
+    var url="data.json?t="+Date.now();
+    fetch(url,{cache:"no-store"}).then(function(r){
+      if(!r.ok)throw new Error(r.status);
+      return r.json();
+    }).then(function(data){
+      fetchedAt=Date.now();
+      apply(data,false);
+    }).catch(function(err){
+      if(!doc){
+        cal.className="";
+        cal.textContent="";
+        cal.appendChild(el("div","warn","Daten nicht erreichbar ("+err.message+")."));
+      }
+    });
+  }
+  function skeleton(){
+    for(var i=0;i<5;i++){
+      var row=el("div","row");
+      row.appendChild(el("div","t"));
+      row.appendChild(el("div","lg"));
+      var m=el("div","m");
+      m.appendChild(el("div","bar"));
+      row.appendChild(m);
+      cal.appendChild(row);
+    }
+  }
+
+  buildFilters();
+  syncState();
+  var cached=load(CACHE_KEY,null);
+  if(cached){apply(cached,true);}else{skeleton();}
+  fetchData();
+
+  /* Live-Zustand und Tageswechsel nachziehen, ohne Reload. */
+  var lastDay=dayKey(new Date());
+  setInterval(function(){
+    var now=dayKey(new Date());
+    if(now!==lastDay){lastDay=now;fetchData();}
+    if(doc)render();
+  },60000);
+  document.addEventListener("visibilitychange",function(){
+    if(!document.hidden&&Date.now()-fetchedAt>REFRESH_MS)fetchData();
+  });
 })();
 </script>
 </body>

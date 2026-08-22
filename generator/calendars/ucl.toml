@@ -1,0 +1,14 @@
+# Champions League, handgepflegt: OpenLigaDB pflegt "cl" nur bis Saison 2015/16,
+# der ESPN-Feed ist fuer 2026/27 leer und football-data.org braucht einen Key.
+#
+# ACHTUNG Pflege-Rhythmus (4-5x pro Saison):
+#   - Ligaphase 2026/27: Auslosung Ende August 2026, danach hier eintragen
+#   - Auslosung Playoffs/Achtelfinale: Dezember 2026
+#   - Auslosung Viertelfinale und weiter: Februar 2027
+# Sender: DAZN und Amazon Prime teilen sich die Rechte, die Prime-Auswahl je
+# Spieltag ist nicht ableitbar - deshalb werden bewusst beide genannt (Q25a).
+
+coverage = "2026-08-27"
+tz = "Europe/Berlin"
+
+# Noch keine Termine: Auslosung der Ligaphase steht aus.

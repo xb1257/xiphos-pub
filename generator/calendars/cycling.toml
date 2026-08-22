@@ -1,0 +1,198 @@
+# Radsport, handgepflegt (Q12: kein Scraping).
+# ProCyclingStats und FirstCycling blocken Bots per Cloudflare, es gibt keine
+# freie API. Startzeiten sind Richtwerte fuer die TV-Uebertragung, nicht
+# offizielle Startzeiten - die veroeffentlicht die Vuelta erst kurzfristig.
+# Naechste Pflege: Kalender 2027 im Herbst 2026.
+
+coverage = "2026-09-13"
+tz = "Europe/Madrid"
+
+[[event]]
+name  = "Vuelta a España"
+stage = "Etappe 1 / 21"
+date  = 2026-08-22
+time  = "13:30"
+dur   = 270
+meta  = "Grand Tour"
+url   = "https://www.lavuelta.es/"
+
+[[event]]
+name  = "Vuelta a España"
+stage = "Etappe 2 / 21"
+date  = 2026-08-23
+time  = "13:30"
+dur   = 270
+meta  = "Grand Tour"
+url   = "https://www.lavuelta.es/"
+
+[[event]]
+name  = "Vuelta a España"
+stage = "Etappe 3 / 21"
+date  = 2026-08-24
+time  = "13:30"
+dur   = 270
+meta  = "Grand Tour"
+url   = "https://www.lavuelta.es/"
+
+[[event]]
+name  = "Vuelta a España"
+stage = "Etappe 4 / 21"
+date  = 2026-08-25
+time  = "13:30"
+dur   = 270
+meta  = "Grand Tour"
+url   = "https://www.lavuelta.es/"
+
+[[event]]
+name  = "Vuelta a España"
+stage = "Etappe 5 / 21"
+date  = 2026-08-26
+time  = "13:30"
+dur   = 270
+meta  = "Grand Tour"
+url   = "https://www.lavuelta.es/"
+
+[[event]]
+name  = "Vuelta a España"
+stage = "Etappe 6 / 21"
+date  = 2026-08-27
+time  = "13:30"
+dur   = 270
+meta  = "Grand Tour"
+url   = "https://www.lavuelta.es/"
+
+[[event]]
+name  = "Vuelta a España"
+stage = "Etappe 7 / 21"
+date  = 2026-08-28
+time  = "13:30"
+dur   = 270
+meta  = "Grand Tour"
+url   = "https://www.lavuelta.es/"
+
+[[event]]
+name  = "Vuelta a España"
+stage = "Etappe 8 / 21"
+date  = 2026-08-29
+time  = "13:30"
+dur   = 270
+meta  = "Grand Tour"
+url   = "https://www.lavuelta.es/"
+
+[[event]]
+name  = "Vuelta a España"
+stage = "Etappe 9 / 21"
+date  = 2026-08-30
+time  = "13:30"
+dur   = 270
+meta  = "Grand Tour"
+url   = "https://www.lavuelta.es/"
+
+[[event]]
+name  = "Vuelta a España"
+stage = "Etappe 10 / 21"
+date  = 2026-09-01
+time  = "13:30"
+dur   = 270
+meta  = "Grand Tour"
+url   = "https://www.lavuelta.es/"
+
+[[event]]
+name  = "Vuelta a España"
+stage = "Etappe 11 / 21"
+date  = 2026-09-02
+time  = "13:30"
+dur   = 270
+meta  = "Grand Tour"
+url   = "https://www.lavuelta.es/"
+
+[[event]]
+name  = "Vuelta a España"
+stage = "Etappe 12 / 21"
+date  = 2026-09-03
+time  = "13:30"
+dur   = 270
+meta  = "Grand Tour"
+url   = "https://www.lavuelta.es/"
+
+[[event]]
+name  = "Vuelta a España"
+stage = "Etappe 13 / 21"
+date  = 2026-09-04
+time  = "13:30"
+dur   = 270
+meta  = "Grand Tour"
+url   = "https://www.lavuelta.es/"
+
+[[event]]
+name  = "Vuelta a España"
+stage = "Etappe 14 / 21"
+date  = 2026-09-05
+time  = "13:30"
+dur   = 270
+meta  = "Grand Tour"
+url   = "https://www.lavuelta.es/"
+
+[[event]]
+name  = "Vuelta a España"
+stage = "Etappe 15 / 21"
+date  = 2026-09-06
+time  = "13:30"
+dur   = 270
+meta  = "Grand Tour"
+url   = "https://www.lavuelta.es/"
+
+[[event]]
+name  = "Vuelta a España"
+stage = "Etappe 16 / 21"
+date  = 2026-09-08
+time  = "13:30"
+dur   = 270
+meta  = "Grand Tour"
+url   = "https://www.lavuelta.es/"
+
+[[event]]
+name  = "Vuelta a España"
+stage = "Etappe 17 / 21"
+date  = 2026-09-09
+time  = "13:30"
+dur   = 270
+meta  = "Grand Tour"
+url   = "https://www.lavuelta.es/"
+
+[[event]]
+name  = "Vuelta a España"
+stage = "Etappe 18 / 21"
+date  = 2026-09-10
+time  = "13:30"
+dur   = 270
+meta  = "Grand Tour"
+url   = "https://www.lavuelta.es/"
+
+[[event]]
+name  = "Vuelta a España"
+stage = "Etappe 19 / 21"
+date  = 2026-09-11
+time  = "13:30"
+dur   = 270
+meta  = "Grand Tour"
+url   = "https://www.lavuelta.es/"
+
+[[event]]
+name  = "Vuelta a España"
+stage = "Etappe 20 / 21"
+date  = 2026-09-12
+time  = "13:30"
+dur   = 270
+meta  = "Grand Tour"
+url   = "https://www.lavuelta.es/"
+
+[[event]]
+name  = "Vuelta a España"
+stage = "Etappe 21 / 21"
+date  = 2026-09-13
+time  = "13:30"
+dur   = 270
+meta  = "Grand Tour"
+url   = "https://www.lavuelta.es/"
+

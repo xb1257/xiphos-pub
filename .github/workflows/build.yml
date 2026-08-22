@@ -1,0 +1,73 @@
+name: build
+
+on:
+  schedule:
+    # 2x taeglich, UTC (Actions kennt keine Sommerzeit): 05:00/04:00 und 17:00/16:00 Berlin
+    - cron: "0 3,15 * * *"
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "index.html"
+      - "generator/**"
+      - ".github/workflows/build.yml"
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      # Letzter guter Stand je Quelle. Kein Repo-Commit, damit die History
+      # sauber bleibt; faellt eine Quelle laenger als 7 Tage aus, ist der
+      # Cache weg und der Footer zeigt .fail.
+      - name: Quellen-Cache wiederherstellen
+        uses: actions/cache@v4
+        with:
+          path: .cache
+          key: sportcal-sources-${{ github.run_id }}
+          restore-keys: |
+            sportcal-sources-
+
+      - name: data.json bauen
+        run: |
+          mkdir -p site
+          python3 -m generator.build --out site/data.json
+          cp index.html site/index.html
+
+      - name: Ausgabe pruefen
+        run: |
+          python3 - <<'PY'
+          import json, sys
+          d = json.load(open("site/data.json", encoding="utf-8"))
+          assert d["events"], "keine Events im Build"
+          dead = [s["key"] for s in d["sources"] if s["state"] == "fail"]
+          print("%d Events, ausgefallen: %s" % (len(d["events"]), dead or "keine"))
+          PY
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - id: deploy
+        uses: actions/deploy-pages@v4
