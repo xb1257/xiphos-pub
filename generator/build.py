@@ -14,11 +14,11 @@ import sys
 
 from . import leagues
 from .net import FAIL, Status
-from .sources import calfile, espn, openf1, openligadb
+from .sources import calfile, espn, espn_soccer, espn_tennis, openf1, openligadb
 
 PAD_BEFORE = 1   # Puffer, weil westliche Zeitzonen einen Tag zurueckfallen
 PAD_AFTER = 2    # Puffer fuer heute+6 plus oestliche Zeitzonen
-CAL_LEAGUES = ("ucl", "cycling", "atp", "wta")
+CAL_LEAGUES = ("cycling",)   # ucl/atp/wta kommen primaer aus ESPN
 
 
 def season_year(today):
@@ -37,6 +37,9 @@ def build(today):
     for key in ("bl1", "dfb"):
         events += openligadb.fetch(key, win_from, win_to, season_year(today), status)
     events += openf1.fetch(win_from, win_to, today.year, status)
+    for key in ("atp", "wta"):
+        events += espn_tennis.fetch(key, win_from, win_to, status)
+    events += _ucl(win_from, win_to, today, status)
     for key in CAL_LEAGUES:
         events += calfile.fetch(key, win_from, win_to, today, status)
 
@@ -55,6 +58,27 @@ def build(today):
         "sources": status.as_list(leagues.LABELS),
         "events": events,
     }
+
+
+def _ucl(win_from, win_to, today, status):
+    """ESPN zuerst, handgepflegte TOML als Rueckfallebene (Q43a).
+
+    Solange die Auslosung der Ligaphase aussteht, liefert ESPN null Termine -
+    das ist kein Fehler, sondern der Normalfall im Sommer. Erst wenn beide
+    Wege leer sind, greift die Veralterungs-Warnung aus calfile.
+    """
+    events, reachable = espn_soccer.fetch("ucl", win_from, win_to)
+    if events:
+        from .net import OK
+        status.set("ucl", OK, None)
+        return events
+    fallback = calfile.fetch("ucl", win_from, win_to, today, status)
+    if fallback:
+        return fallback
+    if not reachable:
+        from .net import PARTIAL
+        status.set("ucl", PARTIAL, "ESPN nicht erreichbar, Kalenderdatei leer")
+    return []
 
 
 def main(argv=None):

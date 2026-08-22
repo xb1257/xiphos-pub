@@ -42,8 +42,9 @@ generator/build.py
   ├─ sources/espn.py        nfl, cfb        ESPN Hidden API, keyless, kein SLA
   ├─ sources/openligadb.py  bl1, dfb        OpenLigaDB, keyless
   ├─ sources/openf1.py      f1              OpenF1, alle Sessions einzeln
-  └─ sources/calfile.py     ucl, cycling,   generator/calendars/*.toml, handgepflegt
-                            atp, wta
+  ├─ sources/espn_tennis.py atp, wta        ESPN + Namens-Allowlist Kategorie 500+
+  ├─ sources/espn_soccer.py ucl             ESPN, leer bis zur Auslosung
+  └─ sources/calfile.py     cycling, ucl    generator/calendars/*.toml, handgepflegt
   → data.json  →  index.html rendert clientseitig
 ```
 
@@ -98,9 +99,16 @@ Keys: `nfl cfb bl1 dfb ucl f1 cycling atp wta`
 Dependency wäre). `coverage` ist Pflicht: läuft die Pflege-Reichweite in unter
 14 Tagen ab, wird die Quelle `partial`, danach `fail`, jeweils mit Log-Warnung.
 
-- `cycling.toml`, `atp.toml`, `wta.toml` — 1×/Jahr, Kalender stehen im Herbst fest
-- `ucl.toml` — **4–5×/Saison**: Auslosung Ligaphase Ende August, Playoffs Dezember,
-  Viertelfinale Februar
+- `cycling.toml` — 1×/Jahr, Kalender steht im Herbst fest. Startzeiten sind
+  Richtwerte für die Übertragung, keine offiziellen Startzeiten.
+- `ucl.toml` — **nur Rückfallebene.** `espn_soccer.py` ist die Primärquelle; die
+  TOML greift erst, wenn ESPN keine Termine liefert (bis zur Auslosung der
+  Ligaphase Ende August ist das der Normalfall).
+- Tennis hat **keine** TOML mehr. Gepflegt wird die Namens-Allowlist `ALLOW` in
+  `generator/sources/espn_tennis.py` — einmal pro Saison gegen den offiziellen
+  Kalender prüfen. Ein Turnier, das dort fehlt, erscheint nicht; Grand Slams
+  erscheinen über das `major`-Flag immer. `DENY` filtert Fehltreffer
+  (z. B. "Next Gen ATP Finals").
 
 ## Streaming
 

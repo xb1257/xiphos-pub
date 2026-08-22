@@ -30,11 +30,11 @@ Zeiten in der Gerätezeitzone, ein Build pro Halbtag, keine API-Keys.
 | College FB | `cfb` | `#c98a3a` | ESPN Hidden API `.../football/college-football/scoreboard` | — |
 | Bundesliga | `bl1` | `#cf4f4f` | OpenLigaDB `api.openligadb.de/getmatchdata/bl1` | — |
 | DFB-Pokal | `dfb` | neu | OpenLigaDB `getmatchdata/dfb` | — |
-| Champions Lg. | `ucl` | `#7a6fd0` | YAML im Repo (OpenLigaDB `cl` ist toter Stand 2015/16) | — |
+| Champions Lg. | `ucl` | `#7a6fd0` | ESPN Hidden API `soccer/uefa.champions`, TOML als Fallback (Q43a) | — |
 | Formel 1 | `f1` | neu | OpenF1, alle Sessions einzeln (FP1-3, Quali, Sprint, Rennen) | — |
 | Radsport | `cycling` | `#5aa06f` | YAML im Repo | — |
-| Tennis ATP | `atp` | `#3fa8a0` | YAML im Repo, Kategorie 500+ und Grand Slams | — |
-| Tennis WTA | `wta` | `#b56aa0` | YAML im Repo, Kategorie 500+ und Grand Slams | — |
+| Tennis ATP | `atp` | `#3fa8a0` | ESPN Hidden API `tennis/atp` + Allowlist 500+ (Q42a) | — |
+| Tennis WTA | `wta` | `#b56aa0` | ESPN Hidden API `tennis/wta` + Allowlist 500+ (Q42a) | — |
 
 Verworfen: Ergast (tot, 404), football-data.org (Key), ProCyclingStats/FirstCycling
 (403 Cloudflare, robots.txt sperrt Agenten), Sofascore (403), TheSportsDB fuer Tennis
@@ -45,8 +45,8 @@ Verworfen: Ergast (tot, 404), football-data.org (Key), ProCyclingStats/FirstCycl
 | Quelle | Rhythmus | Auslöser |
 |---|---|---|
 | Radsport | 1x/Jahr | Kalender steht im Herbst |
-| Tennis | 1x/Jahr | Kalender steht im Herbst |
-| UCL | 4–5x/Saison | Ligaphase Aug fix, Auslosungen Dez + Feb |
+| Tennis | 1x/Saison | nur die Allowlist der Turniere ab Kategorie 500, Termine kommen aus ESPN (Q42a) |
+| UCL | nur Notfall | ESPN liefert nach der Auslosung; TOML ist Rueckfallebene (Q43a) |
 
 Veralterungs-Schutz (Q39 a+d):
 - Generator setzt Footer-Status einer YAML-Quelle auf `.partial`, wenn ihr
@@ -102,6 +102,9 @@ Rechte-Stand August 2026. Einmal pro Sommer prüfen. UCL-Zyklus wechselt 2027/28
 
 - ESPN Hidden API ist undokumentiert und hat kein SLA. Für College Football
   existiert kein kostenloser Fallback.
-- Tennis, Radsport und UCL brauchen Handpflege. Kein Automatismus, nur Warnung.
+- Radsport braucht Handpflege (Etappentermine, Startzeiten nur als Richtwert).
+- Tennis: ESPN liefert keine Turnierkategorie, die 500+-Auswahl ist eine
+  Namens-Allowlist in `generator/sources/espn_tennis.py` und einmal pro Saison zu pruefen.
+- UCL haengt am ESPN-Feed, der bis zur Auslosung leer ist. Bleibt er leer, greift die TOML.
 - Zeitzonen-Logik ist der kritische Pfad: Tagesgrenzen fallen im Browser,
   ein Event um 01:30 Berlin liegt in New York am Vortag.
