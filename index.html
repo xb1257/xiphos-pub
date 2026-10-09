@@ -84,16 +84,16 @@ footer .fail::before{content:"\25CF";color:#e05b4b;padding-right:5px}
 <div class="wrap">
   <header>
     <h1>Sportcal</h1>
-    <div class="stamp">Stand 09.10. 17:50 · Europe/Berlin</div>
+    <div class="stamp">Stand 09.10. 20:52 · Europe/Berlin</div>
   </header>
   <div class="filters"><button class="chip" data-league="nfl" style="--c:#4fa3d1" aria-pressed="true">NFL</button><button class="chip" data-league="cfb" style="--c:#c98a3a" aria-pressed="true">College</button><button class="chip" data-league="bl1" style="--c:#cf4f4f" aria-pressed="true">Bundesliga</button><button class="chip" data-league="ucl" style="--c:#7a6fd0" aria-pressed="true">Champions Lg.</button><button class="chip" data-league="cycling" style="--c:#5aa06f" aria-pressed="true">Radsport</button></div>
   
   <section class="day">
          <h2><span class="dow">Freitag</span><span>9. Oktober</span><span class="rel">heute</span></h2>
-         <div class="row" data-league="bl1">
-       <div class="t">20:30</div>
+         <div class="row is-live" data-league="bl1">
+       <div class="t">20:30<span class="dot" title="läuft"></span></div>
        <div class="lg"><span class="badge" style="--a:#cf4f4f">Bundesliga</span></div>
-       <div class="m">Werder Bremen <span class="vs">gegen</span> Borussia Dortmund </div>
+       <div class="m">Werder Bremen <span class="vs">gegen</span> Borussia Dortmund <span class="score">0 : 0</span></div>
        <div class="meta">2026-27-german-bundesliga · Signal Iduna Park · US-TV Fandango</div>
      </div>
        </section>
@@ -109,7 +109,7 @@ footer .fail::before{content:"\25CF";color:#e05b4b;padding-right:5px}
        <div class="t">03:00</div>
        <div class="lg"><span class="badge" style="--a:#c98a3a">College</span></div>
        <div class="m"><span class="rank">#20</span> Iowa Hawkeyes <span class="vs">gegen</span> Washington Huskies </div>
-       <div class="meta">Week 6 · Husky Stadium</div>
+       <div class="meta">Week 6 · Husky Stadium · US-TV Fox</div>
      </div>
 <div class="row" data-league="cfb">
        <div class="t">03:00</div>
@@ -1391,6 +1391,12 @@ footer .fail::before{content:"\25CF";color:#e05b4b;padding-right:5px}
        <div class="lg"><span class="badge" style="--a:#4fa3d1">NFL</span></div>
        <div class="m">New England Patriots <span class="vs">gegen</span> Chicago Bears </div>
        <div class="meta">Week 7 · Soldier Field · US-TV Prime Video</div>
+     </div>
+<div class="row" data-league="bl1">
+       <div class="t">20:30</div>
+       <div class="lg"><span class="badge" style="--a:#cf4f4f">Bundesliga</span></div>
+       <div class="m">Borussia Mönchengladbach <span class="vs">gegen</span> VfB Stuttgart </div>
+       <div class="meta">2026-27-german-bundesliga · MHPArena</div>
      </div>
        </section>
   <footer><span class="src ok">NFL vor 0 h</span><span class="src ok">College vor 0 h</span><span class="src ok">Bundesliga vor 0 h</span><span class="src ok">Champions Lg. vor 0 h</span><span class="src ok">Radsport vor 0 h</span></footer>
