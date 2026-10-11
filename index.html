@@ -84,28 +84,28 @@ footer .fail::before{content:"\25CF";color:#e05b4b;padding-right:5px}
 <div class="wrap">
   <header>
     <h1>Sportcal</h1>
-    <div class="stamp">Stand 11.10. 14:48 · Europe/Berlin</div>
+    <div class="stamp">Stand 11.10. 17:48 · Europe/Berlin</div>
   </header>
   <div class="filters"><button class="chip" data-league="nfl" style="--c:#4fa3d1" aria-pressed="true">NFL</button><button class="chip" data-league="cfb" style="--c:#c98a3a" aria-pressed="true">College</button><button class="chip" data-league="bl1" style="--c:#cf4f4f" aria-pressed="true">Bundesliga</button><button class="chip" data-league="ucl" style="--c:#7a6fd0" aria-pressed="true">Champions Lg.</button><button class="chip" data-league="cycling" style="--c:#5aa06f" aria-pressed="true">Radsport</button></div>
   
   <section class="day">
          <h2><span class="dow">Sonntag</span><span>11. Oktober</span><span class="rel">heute</span></h2>
-         <div class="row" data-league="nfl">
-       <div class="t">15:30</div>
+         <div class="row is-live" data-league="nfl">
+       <div class="t">15:30<span class="dot" title="läuft"></span></div>
        <div class="lg"><span class="badge" style="--a:#4fa3d1">NFL</span></div>
-       <div class="m">Philadelphia Eagles <span class="vs">gegen</span> Jacksonville Jaguars </div>
+       <div class="m">Philadelphia Eagles <span class="vs">gegen</span> Jacksonville Jaguars <span class="score">14 : 7</span></div>
        <div class="meta">Week 5 · Tottenham Hotspur Stadium · US-TV NFL Net</div>
      </div>
-<div class="row" data-league="bl1">
+<div class="row is-done" data-league="bl1">
        <div class="t">15:30</div>
        <div class="lg"><span class="badge" style="--a:#cf4f4f">Bundesliga</span></div>
-       <div class="m">Borussia Mönchengladbach <span class="vs">gegen</span> FC Cologne </div>
+       <div class="m">Borussia Mönchengladbach <span class="vs">gegen</span> FC Cologne <span class="score">1 : 2</span></div>
        <div class="meta">2026-27-german-bundesliga · RheinEnergieStadion · US-TV Fandango</div>
      </div>
-<div class="row" data-league="bl1">
-       <div class="t">17:30</div>
+<div class="row is-live" data-league="bl1">
+       <div class="t">17:30<span class="dot" title="läuft"></span></div>
        <div class="lg"><span class="badge" style="--a:#cf4f4f">Bundesliga</span></div>
-       <div class="m">Schalke 04 <span class="vs">gegen</span> SC Freiburg </div>
+       <div class="m">Schalke 04 <span class="vs">gegen</span> SC Freiburg <span class="score">0 : 1</span></div>
        <div class="meta">2026-27-german-bundesliga · Europa-Park Stadion · US-TV Fandango</div>
      </div>
 <div class="row" data-league="nfl">
@@ -408,18 +408,6 @@ footer .fail::before{content:"\25CF";color:#e05b4b;padding-right:5px}
        <div class="m">App State Mountaineers <span class="vs">gegen</span> Coastal Carolina Chanticleers </div>
        <div class="meta">Week 7 · Brooks Stadium (SC) · US-TV ESPN2</div>
      </div>
-<div class="row" data-league="cfb">
-       <div class="t">06:00</div>
-       <div class="lg"><span class="badge" style="--a:#c98a3a">College</span></div>
-       <div class="m"><span class="fav">★</span> Nebraska Cornhuskers <span class="vs">gegen</span> <span class="rank">#13</span> Oregon Ducks </div>
-       <div class="meta">Week 7 · Autzen Stadium</div>
-     </div>
-<div class="row" data-league="cfb">
-       <div class="t">06:00</div>
-       <div class="lg"><span class="badge" style="--a:#c98a3a">College</span></div>
-       <div class="m">Wisconsin Badgers <span class="vs">gegen</span> <span class="rank">#21</span> UCLA Bruins </div>
-       <div class="meta">Week 7 · Rose Bowl</div>
-     </div>
 <div class="row" data-league="cycling">
        <div class="t">10:30</div>
        <div class="lg"><span class="badge" style="--a:#5aa06f">Rad</span></div>
@@ -702,6 +690,12 @@ footer .fail::before{content:"\25CF";color:#e05b4b;padding-right:5px}
 <div class="row" data-league="cfb">
        <div class="t">01:30</div>
        <div class="lg"><span class="badge" style="--a:#c98a3a">College</span></div>
+       <div class="m">Wisconsin Badgers <span class="vs">gegen</span> <span class="rank">#21</span> UCLA Bruins </div>
+       <div class="meta">Week 7 · Rose Bowl · US-TV NBC</div>
+     </div>
+<div class="row" data-league="cfb">
+       <div class="t">01:30</div>
+       <div class="lg"><span class="badge" style="--a:#c98a3a">College</span></div>
        <div class="m">Kentucky Wildcats <span class="vs">gegen</span> Oklahoma Sooners </div>
        <div class="meta">Week 7 · Memorial Stadium (Norman, OK) · US-TV SEC Network</div>
      </div>
@@ -764,6 +758,12 @@ footer .fail::before{content:"\25CF";color:#e05b4b;padding-right:5px}
        <div class="lg"><span class="badge" style="--a:#c98a3a">College</span></div>
        <div class="m">New Mexico Lobos <span class="vs">gegen</span> Hawai'i Rainbow Warriors </div>
        <div class="meta">Week 7 · Clarence T.C. Ching Athletics Complex · US-TV FS1</div>
+     </div>
+<div class="row" data-league="cfb">
+       <div class="t">05:00</div>
+       <div class="lg"><span class="badge" style="--a:#c98a3a">College</span></div>
+       <div class="m"><span class="fav">★</span> Nebraska Cornhuskers <span class="vs">gegen</span> <span class="rank">#13</span> Oregon Ducks </div>
+       <div class="meta">Week 7 · Autzen Stadium · US-TV Fox</div>
      </div>
 <div class="row" data-league="cycling">
        <div class="t">10:30</div>
@@ -1373,6 +1373,18 @@ footer .fail::before{content:"\25CF";color:#e05b4b;padding-right:5px}
        <div class="lg"><span class="badge" style="--a:#c98a3a">College</span></div>
        <div class="m">North Dakota State Bison <span class="vs">gegen</span> New Mexico Lobos </div>
        <div class="meta">Week 8 · University Stadium (NM) · US-TV CW</div>
+     </div>
+<div class="row" data-league="nfl">
+       <div class="t">14:30</div>
+       <div class="lg"><span class="badge" style="--a:#4fa3d1">NFL</span></div>
+       <div class="m">Pittsburgh Steelers <span class="vs">gegen</span> New Orleans Saints </div>
+       <div class="meta">Week 7 · Stade de France · US-TV NFL Net</div>
+     </div>
+<div class="row" data-league="bl1">
+       <div class="t">15:30</div>
+       <div class="lg"><span class="badge" style="--a:#cf4f4f">Bundesliga</span></div>
+       <div class="m">Bayer Leverkusen <span class="vs">gegen</span> TSG Hoffenheim </div>
+       <div class="meta">2026-27-german-bundesliga · PreZero Arena</div>
      </div>
        </section>
   <footer><span class="src ok">NFL vor 0 h</span><span class="src ok">College vor 0 h</span><span class="src ok">Bundesliga vor 0 h</span><span class="src ok">Champions Lg. vor 0 h</span><span class="src ok">Radsport vor 0 h</span></footer>
