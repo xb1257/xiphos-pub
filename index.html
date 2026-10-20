@@ -84,16 +84,16 @@ footer .fail::before{content:"\25CF";color:#e05b4b;padding-right:5px}
 <div class="wrap">
   <header>
     <h1>Sportcal</h1>
-    <div class="stamp">Stand 20.10. 00:02 · Europe/Berlin</div>
+    <div class="stamp">Stand 20.10. 03:04 · Europe/Berlin</div>
   </header>
   <div class="filters"><button class="chip" data-league="nfl" style="--c:#4fa3d1" aria-pressed="true">NFL</button><button class="chip" data-league="cfb" style="--c:#c98a3a" aria-pressed="true">College</button><button class="chip" data-league="bl1" style="--c:#cf4f4f" aria-pressed="true">Bundesliga</button><button class="chip" data-league="ucl" style="--c:#7a6fd0" aria-pressed="true">Champions Lg.</button><button class="chip" data-league="cycling" style="--c:#5aa06f" aria-pressed="true">Radsport</button></div>
   
   <section class="day">
          <h2><span class="dow">Dienstag</span><span>20. Oktober</span><span class="rel">heute</span></h2>
-         <div class="row" data-league="nfl">
-       <div class="t">02:15</div>
+         <div class="row is-live" data-league="nfl">
+       <div class="t">02:15<span class="dot" title="läuft"></span></div>
        <div class="lg"><span class="badge" style="--a:#4fa3d1">NFL</span></div>
-       <div class="m">Washington Commanders <span class="vs">gegen</span> San Francisco 49ers </div>
+       <div class="m">Washington Commanders <span class="vs">gegen</span> San Francisco 49ers <span class="score">3 : 13</span></div>
        <div class="meta">Week 6 · Levi's Stadium · US-TV ESPN/ABC</div>
      </div>
 <div class="row" data-league="ucl">
@@ -780,12 +780,6 @@ footer .fail::before{content:"\25CF";color:#e05b4b;padding-right:5px}
 <div class="row" data-league="cfb">
        <div class="t">05:00</div>
        <div class="lg"><span class="badge" style="--a:#c98a3a">College</span></div>
-       <div class="m"><span class="rank">#3</span> Ohio State Buckeyes <span class="vs">gegen</span> <span class="rank">#16</span> USC Trojans </div>
-       <div class="meta">Week 9 · Los Angeles Memorial Coliseum</div>
-     </div>
-<div class="row" data-league="cfb">
-       <div class="t">05:00</div>
-       <div class="lg"><span class="badge" style="--a:#c98a3a">College</span></div>
        <div class="m">Nevada Wolf Pack <span class="vs">gegen</span> <span class="rank">#9</span> UCLA Bruins </div>
        <div class="meta">Week 9 · Rose Bowl</div>
      </div>
@@ -834,12 +828,6 @@ footer .fail::before{content:"\25CF";color:#e05b4b;padding-right:5px}
 <div class="row" data-league="cfb">
        <div class="t">17:00</div>
        <div class="lg"><span class="badge" style="--a:#c98a3a">College</span></div>
-       <div class="m">Wisconsin Badgers <span class="vs">gegen</span> <span class="rank">#15</span> Iowa Hawkeyes </div>
-       <div class="meta">Week 9 · Kinnick Stadium</div>
-     </div>
-<div class="row" data-league="cfb">
-       <div class="t">17:00</div>
-       <div class="lg"><span class="badge" style="--a:#c98a3a">College</span></div>
        <div class="m"><span class="rank">#4</span> Notre Dame Fighting Irish <span class="vs">gegen</span> Navy Midshipmen </div>
        <div class="meta">Week 9 · Gillette Stadium</div>
      </div>
@@ -848,6 +836,12 @@ footer .fail::before{content:"\25CF";color:#e05b4b;padding-right:5px}
        <div class="lg"><span class="badge" style="--a:#c98a3a">College</span></div>
        <div class="m"><span class="rank">#25</span> Arizona Wildcats <span class="vs">gegen</span> <span class="rank">#8</span> Texas Tech Red Raiders </div>
        <div class="meta">Week 9 · Galaxy Stadium</div>
+     </div>
+<div class="row" data-league="cfb">
+       <div class="t">17:00</div>
+       <div class="lg"><span class="badge" style="--a:#c98a3a">College</span></div>
+       <div class="m">Wisconsin Badgers <span class="vs">gegen</span> <span class="rank">#15</span> Iowa Hawkeyes </div>
+       <div class="meta">Week 9 · Kinnick Stadium · US-TV Fox</div>
      </div>
 <div class="row" data-league="cfb">
        <div class="t">17:00</div>
@@ -961,7 +955,7 @@ footer .fail::before{content:"\25CF";color:#e05b4b;padding-right:5px}
        <div class="t">20:30</div>
        <div class="lg"><span class="badge" style="--a:#c98a3a">College</span></div>
        <div class="m">Minnesota Golden Gophers <span class="vs">gegen</span> <span class="rank">#6</span> Indiana Hoosiers </div>
-       <div class="meta">Week 9 · Memorial Stadium (Bloomington, IN)</div>
+       <div class="meta">Week 9 · Memorial Stadium (Bloomington, IN) · US-TV CBS</div>
      </div>
 <div class="row" data-league="cfb">
        <div class="t">20:30</div>
@@ -1049,6 +1043,12 @@ footer .fail::before{content:"\25CF";color:#e05b4b;padding-right:5px}
        <div class="lg"><span class="badge" style="--a:#c98a3a">College</span></div>
        <div class="m"><span class="rank">#1</span> Miami Hurricanes <span class="vs">gegen</span> North Carolina Tar Heels </div>
        <div class="meta">Week 9 · Kenan Stadium</div>
+     </div>
+<div class="row" data-league="cfb">
+       <div class="t">00:30</div>
+       <div class="lg"><span class="badge" style="--a:#c98a3a">College</span></div>
+       <div class="m"><span class="rank">#3</span> Ohio State Buckeyes <span class="vs">gegen</span> <span class="rank">#16</span> USC Trojans </div>
+       <div class="meta">Week 9 · Los Angeles Memorial Coliseum · US-TV NBC</div>
      </div>
 <div class="row" data-league="cfb">
        <div class="t">00:30</div>
