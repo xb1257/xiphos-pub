@@ -84,22 +84,22 @@ footer .fail::before{content:"\25CF";color:#e05b4b;padding-right:5px}
 <div class="wrap">
   <header>
     <h1>Sportcal</h1>
-    <div class="stamp">Stand 01.11. 15:05 · Europe/Berlin</div>
+    <div class="stamp">Stand 01.11. 18:07 · Europe/Berlin</div>
   </header>
   <div class="filters"><button class="chip" data-league="nfl" style="--c:#4fa3d1" aria-pressed="true">NFL</button><button class="chip" data-league="cfb" style="--c:#c98a3a" aria-pressed="true">College</button><button class="chip" data-league="bl1" style="--c:#cf4f4f" aria-pressed="true">Bundesliga</button><button class="chip" data-league="ucl" style="--c:#7a6fd0" aria-pressed="true">Champions Lg.</button><button class="chip" data-league="cycling" style="--c:#5aa06f" aria-pressed="true">Radsport</button></div>
   
   <section class="day">
          <h2><span class="dow">Sonntag</span><span>1. November</span><span class="rel">heute</span></h2>
-         <div class="row" data-league="bl1">
+         <div class="row is-done" data-league="bl1">
        <div class="t">15:30</div>
        <div class="lg"><span class="badge" style="--a:#cf4f4f">Bundesliga</span></div>
-       <div class="m">FC Cologne <span class="vs">gegen</span> 1. FC Union Berlin </div>
+       <div class="m">FC Cologne <span class="vs">gegen</span> 1. FC Union Berlin <span class="score">1 : 1</span></div>
        <div class="meta">2026-27-german-bundesliga · Stadion An der Alten Försterei · US-TV Fandango</div>
      </div>
-<div class="row" data-league="bl1">
-       <div class="t">17:30</div>
+<div class="row is-live" data-league="bl1">
+       <div class="t">17:30<span class="dot" title="läuft"></span></div>
        <div class="lg"><span class="badge" style="--a:#cf4f4f">Bundesliga</span></div>
-       <div class="m">Hamburg SV <span class="vs">gegen</span> Eintracht Frankfurt </div>
+       <div class="m">Hamburg SV <span class="vs">gegen</span> Eintracht Frankfurt <span class="score">1 : 1</span></div>
        <div class="meta">2026-27-german-bundesliga · Deutsche Bank Park · US-TV USA Net</div>
      </div>
 <div class="row" data-league="nfl">
@@ -393,38 +393,14 @@ footer .fail::before{content:"\25CF";color:#e05b4b;padding-right:5px}
 <div class="row" data-league="cfb">
        <div class="t">06:00</div>
        <div class="lg"><span class="badge" style="--a:#c98a3a">College</span></div>
-       <div class="m"><span class="rank">#7</span> UCLA Bruins <span class="vs">gegen</span> Minnesota Golden Gophers </div>
-       <div class="meta">Week 10 · Huntington Bank Stadium</div>
-     </div>
-<div class="row" data-league="cfb">
-       <div class="t">06:00</div>
-       <div class="lg"><span class="badge" style="--a:#c98a3a">College</span></div>
        <div class="m">Cincinnati Bearcats <span class="vs">gegen</span> <span class="rank">#18</span> Houston Cougars </div>
        <div class="meta">Week 10 · TDECU Stadium</div>
      </div>
 <div class="row" data-league="cfb">
        <div class="t">06:00</div>
        <div class="lg"><span class="badge" style="--a:#c98a3a">College</span></div>
-       <div class="m">Iowa Hawkeyes <span class="vs">gegen</span> <span class="rank">#20</span> Northwestern Wildcats </div>
-       <div class="meta">Week 10 · Ryan Field</div>
-     </div>
-<div class="row" data-league="cfb">
-       <div class="t">06:00</div>
-       <div class="lg"><span class="badge" style="--a:#c98a3a">College</span></div>
        <div class="m">Iowa State Cyclones <span class="vs">gegen</span> Baylor Bears </div>
        <div class="meta">Week 10 · McLane Stadium</div>
-     </div>
-<div class="row" data-league="cfb">
-       <div class="t">06:00</div>
-       <div class="lg"><span class="badge" style="--a:#c98a3a">College</span></div>
-       <div class="m">Michigan State Spartans <span class="vs">gegen</span> Michigan Wolverines </div>
-       <div class="meta">Week 10 · Michigan Stadium</div>
-     </div>
-<div class="row" data-league="cfb">
-       <div class="t">06:00</div>
-       <div class="lg"><span class="badge" style="--a:#c98a3a">College</span></div>
-       <div class="m">Penn State Nittany Lions <span class="vs">gegen</span> Washington Huskies </div>
-       <div class="meta">Week 10 · Husky Stadium</div>
      </div>
 <div class="row" data-league="bl1">
        <div class="t">15:30</div>
@@ -455,6 +431,12 @@ footer .fail::before{content:"\25CF";color:#e05b4b;padding-right:5px}
        <div class="lg"><span class="badge" style="--a:#c98a3a">College</span></div>
        <div class="m"><span class="rank">#8</span> BYU Cougars <span class="vs">gegen</span> <span class="rank">#6</span> Utah Utes </div>
        <div class="meta">Week 10 · Rice-Eccles Stadium · US-TV ABC</div>
+     </div>
+<div class="row" data-league="cfb">
+       <div class="t">18:00</div>
+       <div class="lg"><span class="badge" style="--a:#c98a3a">College</span></div>
+       <div class="m"><span class="rank">#7</span> UCLA Bruins <span class="vs">gegen</span> Minnesota Golden Gophers </div>
+       <div class="meta">Week 10 · Huntington Bank Stadium · US-TV Fox</div>
      </div>
 <div class="row" data-league="cfb">
        <div class="t">18:00</div>
@@ -491,12 +473,6 @@ footer .fail::before{content:"\25CF";color:#e05b4b;padding-right:5px}
        <div class="lg"><span class="badge" style="--a:#c98a3a">College</span></div>
        <div class="m">Tulsa Golden Hurricane <span class="vs">gegen</span> Tulane Green Wave </div>
        <div class="meta">Week 10 · Yulman Stadium · US-TV ESPNU</div>
-     </div>
-<div class="row" data-league="cfb">
-       <div class="t">18:30</div>
-       <div class="lg"><span class="badge" style="--a:#c98a3a">College</span></div>
-       <div class="m">Rutgers Scarlet Knights <span class="vs">gegen</span> <span class="rank">#25</span> Wisconsin Badgers </div>
-       <div class="meta">Week 10 · Camp Randall Stadium · US-TV BTN</div>
      </div>
 <div class="row" data-league="cfb">
        <div class="t">18:30</div>
@@ -573,6 +549,12 @@ footer .fail::before{content:"\25CF";color:#e05b4b;padding-right:5px}
 <div class="row" data-league="cfb">
        <div class="t">21:30</div>
        <div class="lg"><span class="badge" style="--a:#c98a3a">College</span></div>
+       <div class="m">Penn State Nittany Lions <span class="vs">gegen</span> Washington Huskies </div>
+       <div class="meta">Week 10 · Husky Stadium · US-TV FS1</div>
+     </div>
+<div class="row" data-league="cfb">
+       <div class="t">21:30</div>
+       <div class="lg"><span class="badge" style="--a:#c98a3a">College</span></div>
        <div class="m">Charlotte 49ers <span class="vs">gegen</span> UAB Blazers </div>
        <div class="meta">Week 10 · Protective Stadium · US-TV ESPN+</div>
      </div>
@@ -627,6 +609,12 @@ footer .fail::before{content:"\25CF";color:#e05b4b;padding-right:5px}
 <div class="row" data-league="cfb">
        <div class="t">22:15</div>
        <div class="lg"><span class="badge" style="--a:#c98a3a">College</span></div>
+       <div class="m">Rutgers Scarlet Knights <span class="vs">gegen</span> <span class="rank">#25</span> Wisconsin Badgers </div>
+       <div class="meta">Week 10 · Camp Randall Stadium · US-TV BTN</div>
+     </div>
+<div class="row" data-league="cfb">
+       <div class="t">22:15</div>
+       <div class="lg"><span class="badge" style="--a:#c98a3a">College</span></div>
        <div class="m">Vanderbilt Commodores <span class="vs">gegen</span> Mississippi State Bulldogs </div>
        <div class="meta">Week 10 · Davis Wade Stadium · US-TV SEC Network</div>
      </div>
@@ -668,6 +656,18 @@ footer .fail::before{content:"\25CF";color:#e05b4b;padding-right:5px}
        <div class="lg"><span class="badge" style="--a:#c98a3a">College</span></div>
        <div class="m"><span class="rank">#3</span> Georgia Bulldogs <span class="vs">gegen</span> <span class="rank">#12</span> Ole Miss Rebels </div>
        <div class="meta">Week 10 · Vaught-Hemingway Stadium · US-TV ABC</div>
+     </div>
+<div class="row" data-league="cfb">
+       <div class="t">01:30</div>
+       <div class="lg"><span class="badge" style="--a:#c98a3a">College</span></div>
+       <div class="m">Iowa Hawkeyes <span class="vs">gegen</span> <span class="rank">#20</span> Northwestern Wildcats </div>
+       <div class="meta">Week 10 · Ryan Field · US-TV Fox</div>
+     </div>
+<div class="row" data-league="cfb">
+       <div class="t">01:30</div>
+       <div class="lg"><span class="badge" style="--a:#c98a3a">College</span></div>
+       <div class="m">Michigan State Spartans <span class="vs">gegen</span> Michigan Wolverines </div>
+       <div class="meta">Week 10 · Michigan Stadium · US-TV Peacock</div>
      </div>
 <div class="row" data-league="cfb">
        <div class="t">01:30</div>
@@ -1259,6 +1259,12 @@ footer .fail::before{content:"\25CF";color:#e05b4b;padding-right:5px}
        <div class="lg"><span class="badge" style="--a:#c98a3a">College</span></div>
        <div class="m">North Dakota State Bison <span class="vs">gegen</span> Hawai'i Rainbow Warriors </div>
        <div class="meta">Week 11 · Clarence T.C. Ching Athletics Complex · US-TV CW</div>
+     </div>
+<div class="row" data-league="nfl">
+       <div class="t">15:30</div>
+       <div class="lg"><span class="badge" style="--a:#4fa3d1">NFL</span></div>
+       <div class="m">New England Patriots <span class="vs">gegen</span> Detroit Lions </div>
+       <div class="meta">Week 10 · FC Bayern Munich Stadium · US-TV Fox</div>
      </div>
        </section>
   <footer><span class="src ok">NFL vor 0 h</span><span class="src ok">College vor 0 h</span><span class="src ok">Bundesliga vor 0 h</span><span class="src ok">Champions Lg. vor 0 h</span><span class="src ok">Radsport vor 0 h</span></footer>
