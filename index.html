@@ -84,16 +84,16 @@ footer .fail::before{content:"\25CF";color:#e05b4b;padding-right:5px}
 <div class="wrap">
   <header>
     <h1>Sportcal</h1>
-    <div class="stamp">Stand 10.11. 00:14 · Europe/Berlin</div>
+    <div class="stamp">Stand 10.11. 02:46 · Europe/Berlin</div>
   </header>
   <div class="filters"><button class="chip" data-league="nfl" style="--c:#4fa3d1" aria-pressed="true">NFL</button><button class="chip" data-league="cfb" style="--c:#c98a3a" aria-pressed="true">College</button><button class="chip" data-league="bl1" style="--c:#cf4f4f" aria-pressed="true">Bundesliga</button><button class="chip" data-league="ucl" style="--c:#7a6fd0" aria-pressed="true">Champions Lg.</button><button class="chip" data-league="cycling" style="--c:#5aa06f" aria-pressed="true">Radsport</button></div>
   
   <section class="day">
          <h2><span class="dow">Dienstag</span><span>10. November</span><span class="rel">heute</span></h2>
-         <div class="row" data-league="nfl">
-       <div class="t">02:15</div>
+         <div class="row is-live" data-league="nfl">
+       <div class="t">02:15<span class="dot" title="läuft"></span></div>
        <div class="lg"><span class="badge" style="--a:#4fa3d1">NFL</span></div>
-       <div class="m">Buffalo Bills <span class="vs">gegen</span> Minnesota Vikings </div>
+       <div class="m">Buffalo Bills <span class="vs">gegen</span> Minnesota Vikings <span class="score">0 : 0</span></div>
        <div class="meta">Week 9 · U.S. Bank Stadium · US-TV ESPN/ABC</div>
      </div>
        </section>
@@ -196,7 +196,7 @@ footer .fail::before{content:"\25CF";color:#e05b4b;padding-right:5px}
        <div class="t">18:00</div>
        <div class="lg"><span class="badge" style="--a:#c98a3a">College</span></div>
        <div class="m"><span class="rank">#16</span> Wake Forest Demon Deacons <span class="vs">gegen</span> SMU Mustangs </div>
-       <div class="meta">Week 11 · Gerald J. Ford Stadium · US-TV ESPN</div>
+       <div class="meta">Week 11 · Gerald J. Ford Stadium · US-TV ESPN/Disney+</div>
      </div>
 <div class="row" data-league="cfb">
        <div class="t">18:00</div>
@@ -304,7 +304,7 @@ footer .fail::before{content:"\25CF";color:#e05b4b;padding-right:5px}
        <div class="t">21:30</div>
        <div class="lg"><span class="badge" style="--a:#c98a3a">College</span></div>
        <div class="m"><span class="rank">#18</span> Missouri Tigers <span class="vs">gegen</span> <span class="rank">#2</span> Georgia Bulldogs </div>
-       <div class="meta">Week 11 · Sanford Stadium · US-TV ABC</div>
+       <div class="meta">Week 11 · Sanford Stadium · US-TV ABC/Disney+</div>
      </div>
 <div class="row" data-league="cfb">
        <div class="t">21:30</div>
@@ -774,12 +774,6 @@ footer .fail::before{content:"\25CF";color:#e05b4b;padding-right:5px}
 <div class="row" data-league="cfb">
        <div class="t">06:00</div>
        <div class="lg"><span class="badge" style="--a:#c98a3a">College</span></div>
-       <div class="m">Wisconsin Badgers <span class="vs">gegen</span> Purdue Boilermakers </div>
-       <div class="meta">Week 12 · Ross-Ade Stadium · US-TV NBC</div>
-     </div>
-<div class="row" data-league="cfb">
-       <div class="t">06:00</div>
-       <div class="lg"><span class="badge" style="--a:#c98a3a">College</span></div>
        <div class="m">North Texas Mean Green <span class="vs">gegen</span> Tulane Green Wave </div>
        <div class="meta">Week 12 · Yulman Stadium</div>
      </div>
@@ -822,12 +816,6 @@ footer .fail::before{content:"\25CF";color:#e05b4b;padding-right:5px}
 <div class="row" data-league="cfb">
        <div class="t">18:00</div>
        <div class="lg"><span class="badge" style="--a:#c98a3a">College</span></div>
-       <div class="m">Northwestern Wildcats <span class="vs">gegen</span> Minnesota Golden Gophers </div>
-       <div class="meta">Week 12 · Huntington Bank Stadium · US-TV FS1</div>
-     </div>
-<div class="row" data-league="cfb">
-       <div class="t">18:00</div>
-       <div class="lg"><span class="badge" style="--a:#c98a3a">College</span></div>
        <div class="m">Wofford Terriers <span class="vs">gegen</span> <span class="rank">#10</span> Ole Miss Rebels </div>
        <div class="meta">Week 12 · Vaught-Hemingway Stadium · US-TV SECN+</div>
      </div>
@@ -854,6 +842,18 @@ footer .fail::before{content:"\25CF";color:#e05b4b;padding-right:5px}
        <div class="lg"><span class="badge" style="--a:#c98a3a">College</span></div>
        <div class="m">Syracuse Orange <span class="vs">gegen</span> Boston College Eagles </div>
        <div class="meta">Week 12 · Alumni Stadium (Chestnut Hill, MA) · US-TV ACC Network</div>
+     </div>
+<div class="row" data-league="cfb">
+       <div class="t">18:00</div>
+       <div class="lg"><span class="badge" style="--a:#c98a3a">College</span></div>
+       <div class="m">Northwestern Wildcats <span class="vs">gegen</span> Minnesota Golden Gophers </div>
+       <div class="meta">Week 12 · Huntington Bank Stadium · US-TV FS1</div>
+     </div>
+<div class="row" data-league="cfb">
+       <div class="t">18:00</div>
+       <div class="lg"><span class="badge" style="--a:#c98a3a">College</span></div>
+       <div class="m">Wisconsin Badgers <span class="vs">gegen</span> Purdue Boilermakers </div>
+       <div class="meta">Week 12 · Ross-Ade Stadium · US-TV NBC</div>
      </div>
 <div class="row" data-league="cfb">
        <div class="t">18:00</div>
@@ -1166,6 +1166,15 @@ footer .fail::before{content:"\25CF";color:#e05b4b;padding-right:5px}
        <div class="lg"><span class="badge" style="--a:#4fa3d1">NFL</span></div>
        <div class="m">Minnesota Vikings <span class="vs">gegen</span> San Francisco 49ers </div>
        <div class="meta">Week 11 · Estadio Banorte · US-TV NBC</div>
+     </div>
+       </section>
+<section class="day">
+         <h2><span class="dow">Dienstag</span><span>24. November</span><span class="rel"></span></h2>
+         <div class="row" data-league="nfl">
+       <div class="t">02:15</div>
+       <div class="lg"><span class="badge" style="--a:#4fa3d1">NFL</span></div>
+       <div class="m">Cincinnati Bengals <span class="vs">gegen</span> Washington Commanders </div>
+       <div class="meta">Week 11 · Northwest Stadium · US-TV ESPN</div>
      </div>
        </section>
   <footer><span class="src ok">NFL vor 0 h</span><span class="src ok">College vor 0 h</span><span class="src ok">Bundesliga vor 0 h</span><span class="src ok">Champions Lg. vor 0 h</span><span class="src ok">Radsport vor 0 h</span></footer>
